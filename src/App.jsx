@@ -11,7 +11,6 @@ function App() {
         <Outlet />
       </main>
       <Footer />
-      <Logo/>
     </div>
   );
 }
