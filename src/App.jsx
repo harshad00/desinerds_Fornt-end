@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Header, Footer } from "./components";
+import { Header, Footer, Logo } from "./components";
 import { Outlet } from "react-router-dom";
 
 function App() {
@@ -11,6 +11,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
+      <Logo/>
     </div>
   );
 }
