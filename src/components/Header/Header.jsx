@@ -133,12 +133,15 @@ function Header() {
           } md:flex gap-3 justify-end 
           md:gap-5 md:justify-center md:items-center`}
         >
+          <Link to={'/signin'}>
           <button className="text-[#100a55]
            mx-5 font-semibold text-sm 
             md:text-base lg:text-lg
              xl:text-xl">
             Login
           </button>
+          </Link>
+          <Link to={'/signup'}>
           <button className="bg-[#7065f0]
            text-white font-semibold sm:p-1
             text-nowrap p-2 rounded-md
@@ -146,6 +149,7 @@ function Header() {
              lg:text-lg xl:text-xl">
             Sign up
           </button>
+          </Link>
         </div>
       </div>
     </nav>

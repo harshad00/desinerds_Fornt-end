@@ -8,6 +8,9 @@ import Buy from './pages/Buy.jsx';
 import Sell from './pages/Sell.jsx';
 import Manager from './pages/Manager.jsx';
 import Manager2 from './pages/Manager2.jsx';
+import SignUp from './pages/SignUp.jsx';
+import Login from './pages/Login.jsx';
+import Auth from './pages/Auth.jsx';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,18 @@ const router = createBrowserRouter([
       {
         path: '/manage-property/subitem1',
         element:  <Manager2/> ,
+      },
+      {
+        path: '/signUp',
+        element: <SignUp/> ,
+      },
+      {
+        path: '/signin',
+        element:<Login/> ,
+      },
+      {
+        path: '/auth',
+        element:<Auth/> ,
       },
     ],
   },
