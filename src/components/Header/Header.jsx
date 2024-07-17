@@ -47,7 +47,7 @@ function Header() {
   };
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white shadow-lg px-3">
       <div className="flex flex-col justify-evenly md:flex-row  mx-auto px-2 py-5 ">
         <Link to="/">
           <Logo />

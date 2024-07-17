@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Heading,
@@ -50,6 +51,10 @@ function Login() {
             placeholder="123456"
             label={"Password"}
           />
+           
+           <Link to={"/forgot_pasword"}>
+           <div className=" text-blue-600 pt-3 font-semibold text-start pl-1  hover:underline"> Forgot Pasword</div>
+           </Link>
           <div className="pt-4">
             <Button onClick={handleButtonClick} label={"Login"} />
           </div>

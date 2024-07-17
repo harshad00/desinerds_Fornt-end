@@ -11,6 +11,8 @@ import Manager2 from './pages/Manager2.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Login from './pages/Login.jsx';
 import Auth from './pages/Auth.jsx';
+import EmailAuth from './pages/changePassword/EmailAuth.jsx';
+import ChangePassword from './pages/changePassword/ChangePassword.jsx';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +50,14 @@ const router = createBrowserRouter([
       {
         path: '/auth',
         element:<Auth/> ,
+      },
+      {
+        path: '/forgot_pasword',
+        element:<EmailAuth/> ,
+      },
+      {
+        path: '/change_password',
+        element: <ChangePassword/> ,
       },
     ],
   },

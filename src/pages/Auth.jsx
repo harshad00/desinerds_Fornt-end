@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { InputBox,Heading, SubHeading, Button,BottomWarning} from "../components";
+import { InputBox,Heading, SubHeading, Button} from "../components";
 
 const Auth = () => {
   
@@ -19,7 +19,7 @@ const Auth = () => {
           />
 
             
-          <input type="checkbox"  /> <label htmlFor=""> I'm Not Robot. </label>
+          <input type="checkbox"  /> <label htmlFor=""> I&apos;m Not Robot. </label>
 
           <div className="flex gap-3 mt-4 justify-center">
           <Button label={"RESEND OTP"} 
