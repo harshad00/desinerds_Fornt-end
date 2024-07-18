@@ -1,8 +1,9 @@
 import React from "react";
 
-import Slides from "../components/details/Slider.jsx";
-import VirtualTour from "../components/details/VirtualTour.jsx";
-import DetailsNav from "../components/details/DetailsNav.jsx";
+// import Slides from "../components/details/Slider.jsx";
+import {Slides, VirtualTour, DetailsNav} from "../components";
+// import VirtualTour from "../components/details/VirtualTour.jsx";
+// import DetailsNav from "../components/details/DetailsNav.jsx";
 
 function Details() {
   return (
@@ -17,7 +18,7 @@ function Details() {
         Sunny, 11/78b, Arakpur Bagh Mochi, Satya Niketan, South Moti Bagh, South
         Campus, Delhi
       </h1>
-      //
+      
       <Slides />
       <div className="mt-10 w-[100%] h-[100%]">
         <p className="text-gray-700 text-xl lg:text-2xl">Start from</p>

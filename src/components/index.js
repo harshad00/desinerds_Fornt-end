@@ -7,6 +7,12 @@ import { Button } from "./Button";
 import Heading from "./Heading";
 import InputBox from "./InputBox";
 import SubHeading from "./SubHeading";
+import Slides from "./details/Slider";
+import VirtualTour from "./details/VirtualTour";
+import DetailsNav from "./details/DetailsNav";
+import Property from "./properties/Property";
+import RentIcon from "./HomeComponant/RentIcon";
+
 
 
 export { 
@@ -18,5 +24,10 @@ export {
     Button,
     Heading,
     InputBox,
-    SubHeading
+    SubHeading,
+    Slides,
+    VirtualTour,
+    DetailsNav,
+    Property,
+    RentIcon
 }

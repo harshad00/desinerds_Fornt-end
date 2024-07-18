@@ -1,16 +1,21 @@
 /* eslint-disable react/prop-types */
 
+import { Link } from "react-router-dom";
+import properties from "../pages/Propaties";
+
 
 const CardComponent = ({props}) => {
   console.log(props);
   return (
     <div className="max-w-sm mx-auto bg-white shadow-md rounded-lg overflow-hidden">
       <div className="relative">
+       <Link to={`/properties/${props.id}`}>
         <img
           className="w-full h-48 object-cover"
           src={props.img} 
           alt="House"
         />
+        </Link>
         {props.popular && <div className="absolute top-0 left-0 bg-violet-600 text-white px-2 py-1 rounded-br-lg">
           Popular
         </div>}
