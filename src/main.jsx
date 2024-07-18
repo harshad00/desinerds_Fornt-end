@@ -8,8 +8,6 @@ import Buy from "./pages/Buy.jsx";
 import Sell from "./pages/Sell.jsx";
 import Manager from "./pages/Manager.jsx";
 import Manager2 from "./pages/Manager2.jsx";
-import Details from "./pages/Details.jsx";
-import Property from "./components/properties/Property.jsx";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +41,26 @@ const router = createBrowserRouter([
       {
         path: "/property",
         element: <Property />,
+      },
+      {
+        path: "/signUp",
+        element: <SignUp />,
+      },
+      {
+        path: "/signin",
+        element: <Login />,
+      },
+      {
+        path: "/auth",
+        element: <Auth />,
+      },
+      {
+        path: "/forgot_pasword",
+        element: <EmailAuth />,
+      },
+      {
+        path: "/change_password",
+        element: <ChangePassword />,
       },
     ],
   },
