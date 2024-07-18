@@ -1,22 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import './index.css';
-import Home from './pages/Home.jsx';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Buy from './pages/Buy.jsx';
-import Sell from './pages/Sell.jsx';
-import Manager from './pages/Manager.jsx';
-import Manager2 from './pages/Manager2.jsx';
-import SignUp from './pages/SignUp.jsx';
-import Login from './pages/Login.jsx';
-import Auth from './pages/Auth.jsx';
-import EmailAuth from './pages/changePassword/EmailAuth.jsx';
-import ChangePassword from './pages/changePassword/ChangePassword.jsx';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import Home from "./pages/Home.jsx";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Buy from "./pages/Buy.jsx";
+import Sell from "./pages/Sell.jsx";
+import Manager from "./pages/Manager.jsx";
+import Manager2 from "./pages/Manager2.jsx";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
@@ -24,46 +19,54 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/buy',
-        element: <Buy/>,
+        path: "/buy",
+        element: <Buy />,
       },
       {
-        path: '/sell',
-        element: <Sell/>,
+        path: "/sell",
+        element: <Sell />,
       },
       {
-        path: '/manage-property/subitem2',
-        element:  <Manager/> ,
+        path: "/manage-property/subitem2",
+        element: <Manager />,
       },
       {
-        path: '/manage-property/subitem1',
-        element:  <Manager2/> ,
+        path: "/manage-property/subitem1",
+        element: <Manager2 />,
       },
       {
-        path: '/signUp',
-        element: <SignUp/> ,
+        path: "/details",
+        element: <Details />,
       },
       {
-        path: '/signin',
-        element:<Login/> ,
+        path: "/property",
+        element: <Property />,
       },
       {
-        path: '/auth',
-        element:<Auth/> ,
+        path: "/signUp",
+        element: <SignUp />,
       },
       {
-        path: '/forgot_pasword',
-        element:<EmailAuth/> ,
+        path: "/signin",
+        element: <Login />,
       },
       {
-        path: '/change_password',
-        element: <ChangePassword/> ,
+        path: "/auth",
+        element: <Auth />,
+      },
+      {
+        path: "/forgot_pasword",
+        element: <EmailAuth />,
+      },
+      {
+        path: "/change_password",
+        element: <ChangePassword />,
       },
     ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
