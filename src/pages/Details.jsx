@@ -17,6 +17,7 @@ function Details() {
         Sunny, 11/78b, Arakpur Bagh Mochi, Satya Niketan, South Moti Bagh, South
         Campus, Delhi
       </h1>
+      //
       <Slides />
       <div className="mt-10 w-[100%] h-[100%]">
         <p className="text-gray-700 text-xl lg:text-2xl">Start from</p>
