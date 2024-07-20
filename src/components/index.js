@@ -7,7 +7,6 @@ import { Button } from "./Button";
 import Heading from "./Heading";
 import InputBox from "./InputBox";
 import SubHeading from "./SubHeading";
-import RadioButton from "./RadioBtn";
 import Slides from "./details/Slider";
 import VirtualTour from "./details/VirtualTour";
 import DetailsNav from "./details/DetailsNav";
@@ -26,7 +25,6 @@ export {
     Heading,
     InputBox,
     SubHeading,
-    RadioButton
     Slides,
     VirtualTour,
     DetailsNav,
