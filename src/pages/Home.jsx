@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useState } from "react";
 
-function Home() {
+import Resources from "./Resources";
+import { Property, RentIcon } from "../components";
+import PropertyListings from "./PropertyListings";
+import Tenants from "../components/Tenants";
+import RUlandLord from "../components/RUlandLord";
+import Hero from "./Hero";
+
+
+const PropertyComponent = () => {
+ 
+
   return (
-    <div className='h-screen bg-red-300 flex text-8xl justify-center items-center text-black/50  '>
-      This is Home
-
-      <div className=' bg-black h-screen'></div>
+    <>
+       <section>
+        <Hero/>
+       </section>
+      <section>
+        <Property />
+      </section>
+      <section>
+        <PropertyListings />
+      </section>
+      <section>
+        <Tenants />
+      </section>
+      <section>
+        <RUlandLord />
+      </section>
       
-    </div>
+    </>
   );
-}
+};
 
-export default Home;
+export default PropertyComponent;

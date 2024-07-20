@@ -12,9 +12,6 @@ function App() {
       <Header />
       <main>
         <Outlet />
-        <PropertyListings/>
-        <Tenants/>
-        <RUlandLord/>
       </main>
       <Footer />
     </div>

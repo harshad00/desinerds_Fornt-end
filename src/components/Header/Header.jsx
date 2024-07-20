@@ -5,8 +5,7 @@ import Dropdown from "./Dropdown";
 
 const navItems = [
   { name: "Rent", slug: "/", active: true },
-  { name: "Buy", slug: "/buy", active: true },
-  { name: "Sell", slug: "/sell", active: true },
+  { name: "Properties", slug: "/properties", active: true },
   {
     name: "Manage Property",
     slug: "/manage-property",
@@ -47,7 +46,7 @@ function Header() {
   };
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white shadow-lg px-3">
       <div className="flex flex-col justify-evenly md:flex-row  mx-auto px-2 py-5 ">
         <Link to="/">
           <Logo />
@@ -133,12 +132,15 @@ function Header() {
           } md:flex gap-3 justify-end 
           md:gap-5 md:justify-center md:items-center`}
         >
+          <Link to={'/signin'}>
           <button className="text-[#100a55]
            mx-5 font-semibold text-sm 
             md:text-base lg:text-lg
              xl:text-xl">
             Login
           </button>
+          </Link>
+          <Link to={'/signup'}>
           <button className="bg-[#7065f0]
            text-white font-semibold sm:p-1
             text-nowrap p-2 rounded-md
@@ -146,6 +148,7 @@ function Header() {
              lg:text-lg xl:text-xl">
             Sign up
           </button>
+          </Link>
         </div>
       </div>
     </nav>
