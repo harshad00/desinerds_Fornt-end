@@ -26,8 +26,8 @@ export {
     Heading,
     InputBox,
     SubHeading,
-    RadioButton
-    Slides,
+    RadioButton,
+    Slides ,
     VirtualTour,
     DetailsNav,
     Property,
