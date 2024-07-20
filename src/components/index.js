@@ -7,6 +7,7 @@ import { Button } from "./Button";
 import Heading from "./Heading";
 import InputBox from "./InputBox";
 import SubHeading from "./SubHeading";
+import RadioButton from "./RadioBtn";
 
 
 export { 
@@ -18,5 +19,6 @@ export {
     Button,
     Heading,
     InputBox,
-    SubHeading
+    SubHeading,
+    RadioButton
 }
