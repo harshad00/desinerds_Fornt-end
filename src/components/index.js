@@ -14,8 +14,6 @@ import DetailsNav from "./details/DetailsNav";
 import Property from "./properties/Property";
 import RentIcon from "./HomeComponant/RentIcon";
 
-
-
 export { 
     Header,
     Footer,
@@ -27,7 +25,7 @@ export {
     InputBox,
     SubHeading,
     RadioButton,
-    Slides ,
+    Slides,
     VirtualTour,
     DetailsNav,
     Property,

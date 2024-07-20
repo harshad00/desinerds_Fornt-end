@@ -26,7 +26,6 @@ const SignUp = () => {
   });
 
   const handleInputChange = (e) => {
-    e.preventDefault();
     setDetail({ ...detail, [e.target.name]: e.target.value });
   };
 
@@ -49,9 +48,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="bg-slate-300 h-screen  flex justify-center">
-      <div className=" h-screen md:h-[40rem]   mt-5 overflow-x-auto  scrollbar-hide ">
-        <div className="flex  flex-col mb-10 justify-center">
+    <div className="bg-slate-300 h-screen flex justify-center">
+      <div className=" h-screen md:h-[40rem] mt-5 overflow-x-auto scrollbar-hide">
+        <div className="flex flex-col mb-10 justify-center">
           <div className="rounded-lg bg-white min-w-2.5 text-center p-2 h-max px-4">
             <Heading label={"Sign up"} />
             <SubHeading label={"Enter your information to create an account"} />
@@ -80,7 +79,7 @@ const SignUp = () => {
               placeholder={"123456"}
             />
             <div>
-              <label className=" font-semibold">Address: </label>
+              <label className="font-semibold">Address:</label>
             </div>
             <InputBox
               onChange={handleInputChange}
@@ -119,7 +118,7 @@ const SignUp = () => {
               placeholder={"State Name"}
             />
             <div className="flex justify-around mt-4">
-              <label htmlFor=""> Sign Up As </label>
+              <label htmlFor="">Sign Up As</label>
               <RadioButton
                 name="role"
                 value="user"

@@ -38,7 +38,7 @@ function Login() {
       console.error("Error signing up:", error);
     }
   };
-  //! console.log(detail);
+
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
@@ -46,7 +46,7 @@ function Login() {
           <Heading label={"Login"} />
           <SubHeading label={"Enter your credentials to access your account"} />
           <div className="flex justify-around mt-4">
- <label htmlFor="" className=" font-bold"> Login as</label>
+            <label htmlFor="" className=" font-bold"> Login as</label>
             <RadioButton
               name="role"
               value="user"
@@ -76,11 +76,10 @@ function Login() {
             placeholder="123456"
             label={"Password"}
           />
-
           <Link to={"/forgot_pasword"}>
             <div className=" text-blue-600 pt-3 font-semibold text-start pl-1  hover:underline">
               {" "}
-              Forgot Pasword
+              Forgot Password
             </div>
           </Link>
           <div className="pt-4">
