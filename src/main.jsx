@@ -8,6 +8,13 @@ import Buy from "./pages/Buy.jsx";
 import Sell from "./pages/Sell.jsx";
 import Manager from "./pages/Manager.jsx";
 import Manager2 from "./pages/Manager2.jsx";
+import Details from "./pages/Details.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import Login from "./pages/Login.jsx";
+import Auth from "./pages/Auth.jsx";
+import EmailAuth from "./pages/changePassword/EmailAuth.jsx";
+import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
+import Property from "./components/properties/Property.jsx";
 
 const router = createBrowserRouter([
   {
