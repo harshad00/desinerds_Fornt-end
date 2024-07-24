@@ -16,6 +16,7 @@ import Details from "./pages/Details.jsx";
 // import Property from "./pages/Property.jsx";
 import PropertyListings  from "./pages/PropertyListings.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
+import AddProperty from "./pages/AddPropary.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/change_password",
         element: <ChangePassword />,
+      },
+      {
+        path: "/addPropary",
+        element: <AddProperty/>,
       },
     ],
   },

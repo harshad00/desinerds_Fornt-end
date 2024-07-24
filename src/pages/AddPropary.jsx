@@ -1,20 +1,35 @@
 import { useState } from "react";
-import { Button, InputBox, Heading, SubHeading, BottomWarning, RadioButton } from "../components";
+import {
+  Button,
+  InputBox,
+  Heading,
+  SubHeading,
+  BottomWarning,
+  RadioButton,
+} from "../components";
 
 const AddProperty = () => {
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const daysOfWeek = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const [property, setProperty] = useState({
-    occupancyData: [],
-    amenitiesData: [],
-    servicesData: [],
-    mealData: [],
+    occupancy: [],
+    amenities: [],
+    services: [],
+    menu: [],
     images: [],
-    propertyType: "Room/Flat", // Default value
-    gender: "", // Added gender field
-    address: { // Added address field
-      flatHouseNo: "",
-      pgBuilding: "",
+    type: "Room/Flat", // Default value
+    accommodationType: "", //! Added gender field
+    address: {
+      // Added address field
+      flatOrRoom_no: "",
       apartment: "",
       area: "",
       street: "",
@@ -22,18 +37,21 @@ const AddProperty = () => {
       landmark: "",
       pincode: "",
       townCity: "",
-      state: ""
+      state: "",
     },
-    propertyName: "", // Added property name
-    detailInformation: "", // Added detailed information
-    moreInfo: "" // Added more info
+    title: "", // Added property name
+    description: "", // Added detailed information
+    bhk: "", // ariya of room
+    area: "", //
+    price: "", //
+    VRimages: [],
   });
 
   const [newFields, setNewFields] = useState({
     occupancy: [""],
     amenity: [""],
     service: [""],
-    meal: daysOfWeek.map(day => ({
+    meal: daysOfWeek.map((day) => ({
       day,
       meals: {
         breakfast: [""],
@@ -60,20 +78,20 @@ const AddProperty = () => {
 
   const handlePropertyChange = (e) => {
     const { name, value } = e.target;
-    setProperty(prev => ({
+    setProperty((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
-    setProperty(prev => ({
+    setProperty((prev) => ({
       ...prev,
       address: {
         ...prev.address,
-        [name]: value
-      }
+        [name]: value,
+      },
     }));
   };
 
@@ -112,13 +130,16 @@ const AddProperty = () => {
     console.log(updatedProperty);
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/property/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedProperty),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/v1/property/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedProperty),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -140,73 +161,63 @@ const AddProperty = () => {
 
         <div className="flex flex-col mb-4">
           <InputBox
-            name="propertyName"
-            value={property.propertyName}
+            name="title"
+            value={property.title}
             onChange={handlePropertyChange}
             label={"Property Name"}
             placeholder={"Enter the name of the property"}
           />
 
-          {/*   */}
+          <div className="flex flex-wrap gap-5 my-4">
+            <RadioButton
+              name="type"
+              value="Room/Flat"
+              checked={property.type === "Room/Flat"}
+              onChange={handlePropertyChange}
+              label="Room/Flat"
+            />
+            <RadioButton
+              name="type"
+              value="PG"
+              checked={property.type === "PG"}
+              onChange={handlePropertyChange}
+              label="PG"
+            />
+          </div>
 
-          
-        <div className="flex flex-wrap gap-5 my-4">
-          <RadioButton
-            name="propertyType"
-            value="Room/Flat"
-            checked={property.propertyType === "Room/Flat"}
-            onChange={handlePropertyChange}
-            label="Room/Flat"
-          />
-          <RadioButton
-            name="propertyType"
-            value="PG"
-            checked={property.propertyType === "PG"}
-            onChange={handlePropertyChange}
-            label="PG"
-          />
-        </div>
-
-        
           <InputBox
-            name="detailInformation"
-            value={property.detailInformation}
+            name="description"
+            value={property.description}
             onChange={handlePropertyChange}
             label={"Detailed Information"}
             placeholder={"Enter detailed information about the property"}
             textarea
           />
-          <InputBox
-            name="moreInfo"
-            value={property.moreInfo}
-            onChange={handlePropertyChange}
-            label={"More Info"}
-            placeholder={"Enter any additional information"}
-            textarea
-          />
         </div>
 
         <div className="flex flex-col mb-4">
-          <label className="block text-sm font-medium text-gray-700">Gender</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Gender
+          </label>
           <div className="flex gap-4">
             <RadioButton
-              name="gender"
+              name="accommodationType"
               value="Boys"
-              checked={property.gender === "Boys"}
+              checked={property.accommodationType === "Boys"}
               onChange={handlePropertyChange}
               label="Boys"
             />
             <RadioButton
-              name="gender"
+              name="accommodationType"
               value="Girls"
-              checked={property.gender === "Girls"}
+              checked={property.accommodationType === "Girls"}
               onChange={handlePropertyChange}
               label="Girls"
             />
             <RadioButton
-              name="gender"
+              name="accommodationType"
               value="Both"
-              checked={property.gender === "Both"}
+              checked={property.accommodationType === "Both"}
               onChange={handlePropertyChange}
               label="Both"
             />
@@ -214,20 +225,15 @@ const AddProperty = () => {
         </div>
 
         <div className="flex flex-col mb-4">
-          <label className="block text-sm font-medium text-gray-700">Address</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Address
+          </label>
           <InputBox
-            name="flatHouseNo"
-            value={property.address.flatHouseNo}
+            name="flatOrRoom_no"
+            value={property.address.flatOrRoom_no}
             onChange={handleAddressChange}
             label={"Flat/House No"}
             placeholder={"Enter flat/house number"}
-          />
-          <InputBox
-            name="pgBuilding"
-            value={property.address.pgBuilding}
-            onChange={handleAddressChange}
-            label={"PG Building"}
-            placeholder={"Enter PG Building name"}
           />
           <InputBox
             name="apartment"
@@ -316,6 +322,7 @@ const AddProperty = () => {
               <Button
                 label={"Add Occupancy"}
                 onClick={() => addField("occupancy")}
+                className="w-full outline-box" // Added outline-box class
               />
             </div>
           </div>
@@ -330,7 +337,7 @@ const AddProperty = () => {
                   onChange={(e) => handleInputChange(e, index, "amenity")}
                   name="amenity"
                   label={"Amenities Data"}
-                  placeholder={`Attached Washroom`}
+                  placeholder={`Enter amenity, Enter amenity`}
                   value={newFields.amenity[index]}
                   className="flex-1 mb-2 sm:mb-0 outline-box" // Added outline-box class
                 />
@@ -344,8 +351,12 @@ const AddProperty = () => {
                 )}
               </div>
             ))}
-            <div className="w-32">
-              <Button label={"Add Amenity"} onClick={() => addField("amenity")} />
+            <div className="w-40">
+              <Button
+                label={"Add Amenity"}
+                onClick={() => addField("amenity")}
+                className="w-full outline-box" // Added outline-box class
+              />
             </div>
           </div>
 
@@ -359,7 +370,7 @@ const AddProperty = () => {
                   onChange={(e) => handleInputChange(e, index, "service")}
                   name="service"
                   label={"Services Data"}
-                  placeholder={`Professional Housekeeping`}
+                  placeholder={`Enter service, Enter service`}
                   value={newFields.service[index]}
                   className="flex-1 mb-2 sm:mb-0 outline-box" // Added outline-box class
                 />
@@ -373,57 +384,62 @@ const AddProperty = () => {
                 )}
               </div>
             ))}
-            <div className="w-32">
-              <Button label={"Add Service"} onClick={() => addField("service")} />
+            <div className="w-40">
+              <Button
+                label={"Add Service"}
+                onClick={() => addField("service")}
+                className="w-full outline-box" // Added outline-box class
+              />
             </div>
           </div>
-
-          {property.propertyType === "PG" && (
-            <div className="flex flex-col w-full">
-              {newFields.meal.map((mealDay, index) => (
-                <div key={index} className="flex flex-col mb-4 p-4 border border-gray-300 rounded-lg">
-                  <h3 className="text-lg font-semibold">{mealDay.day}</h3>
-                  {Object.keys(mealDay.meals).map((mealTime) => (
-                    <div key={mealTime} className="mt-2">
-                      <label className="block text-sm font-medium text-gray-700 capitalize">
-                        {mealTime}
-                      </label>
-                      <input
-                        type="text"
-                        name={mealTime}
-                        placeholder={`Enter ${mealTime} items, separated by commas`}
-                        value={mealDay.meals[mealTime].join(", ")}
-                        onChange={(e) => handleInputChange(e, index, "meal", mealTime)}
-                        className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg outline-box"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
         </div>
-
-        <div className="flex flex-col max-w-xs w-full sm:w-1/2 mt-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center mb-2">
-            <label className="block text-sm font-medium text-gray-700">Images</label>
-            <input
-              type="file"
-              multiple
-              onChange={handleFileChange}
-              className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 outline-box"
-            />
+        
+        {/* // !  meal */}
+        <h3> Meal</h3>
+        {property.type === "PG" && (
+          <div className="flex flex-col max-w-xs w-full sm:w-1/2">
+            {newFields.meal.map((meal, index) => (
+              <div key={index} className="flex flex-col mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  {meal.day}
+                </label>
+                {Object.keys(meal.meals).map((time) => (
+                  <div
+                    key={time}
+                    className="flex flex-col sm:flex-row items-start sm:items-center mb-2"
+                  >
+                    <InputBox
+                      onChange={(e) =>
+                        handleInputChange(e, index, "meal", time)
+                      }
+                      name={`${meal.day}-${time}`}
+                      label={time.charAt(0).toUpperCase() + time.slice(1)}
+                      placeholder={`Enter ${time} items separated by comma`}
+                      value={meal.meals[time].join(", ")}
+                      className="flex-1 mb-2 sm:mb-0 outline-box"
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
+        )}
+
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Upload Images
+          </label>
+          <input
+            type="file"
+            multiple
+            onChange={handleFileChange}
+            className="mb-2"
+          />
         </div>
 
-        <Button label={"Submit Property"} onClick={handleButtonClick} className="mt-4" />
+        <Button label={"Add Property"} onClick={handleButtonClick} />
 
-        <BottomWarning
-          label={"Go back to dashboard"}
-          to={"/dashboard"}
-          buttonText={"Dashboard"}
-          className="mt-4"
-        />
+        <BottomWarning label={"Please fill out all required fields"} />
       </div>
     </div>
   );
