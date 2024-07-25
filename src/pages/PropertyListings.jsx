@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CardComponent from "../components/CardComponent";
-// import properties from "./Propaties";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loader from "../components/Loader"; // import the Loader component
 
 const PropertyListings = () => {
   const location = useLocation();
   const isHomeRoute = location.pathname === "/";
   const isPropertiesRoute = location.pathname === "/properties";
 
-  // State to manage the number of properties displayed and loading state
   const [visibleProperties, setVisibleProperties] = useState(6);
   const [loading, setLoading] = useState(false);
   const [properties, setProperties] = useState([]);
+  const [fetching, setFetching] = useState(true); // State to manage the fetching state
 
   const loadMoreProperties = () => {
     setLoading(true);
@@ -25,18 +25,20 @@ const PropertyListings = () => {
 
   useEffect(() => {
     const fetchProperties = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/properties`);
-      console.log("response", res.data);
-      setProperties(res.data);
-    } catch (error) {
-      console.log(error.message);
-    }};
-     
+      try {
+        setFetching(true);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/properties`);
+        console.log("response", res.data);
+        setProperties(res.data);
+        setFetching(false);
+      } catch (error) {
+        console.log(error.message);
+        setFetching(false);
+      }
+    };
+
     fetchProperties();
   }, []);
-
-  
 
   return (
     <div className="p-4 lg:w-[90%] mx-auto">
@@ -49,11 +51,17 @@ const PropertyListings = () => {
             Some of our picked properties near your location.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:w-4/5 mx-auto">
-            {properties.slice(0, visibleProperties).map((property, index) => (
-              <CardComponent key={index} props={property} />
-            ))}
-          </div>
+          {fetching ? (
+            <div className="text-center">
+              <Loader />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:w-4/5 mx-auto">
+              {properties.slice(0, visibleProperties).map((property, index) => (
+                <CardComponent key={index} props={property} />
+              ))}
+            </div>
+          )}
 
           <Link to={"/properties"}>
             <div className="text-center mt-6">
@@ -78,11 +86,17 @@ const PropertyListings = () => {
             Some of our picked properties near your location.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:w-4/5 mx-auto">
-            {properties.slice(0, visibleProperties).map((property, index) => (
-              <CardComponent key={index} props={property} />
-            ))}
-          </div>
+          {fetching ? (
+            <div className="text-center">
+              <Loader />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:w-4/5 mx-auto">
+              {properties.slice(0, visibleProperties).map((property, index) => (
+                <CardComponent key={index} props={property} />
+              ))}
+            </div>
+          )}
 
           {visibleProperties < properties.length && (
             <div className="text-center mt-6">
