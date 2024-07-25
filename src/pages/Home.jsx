@@ -8,6 +8,7 @@ import RUlandLord from "../components/RUlandLord";
 import Hero from "./Hero";
 
 
+
 const PropertyComponent = () => {
  
 

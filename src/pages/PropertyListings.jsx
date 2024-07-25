@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import CardComponent from "../components/CardComponent";
-import properties from "./Propaties";
+// import properties from "./Propaties";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const PropertyListings = () => {
   const location = useLocation();
@@ -13,6 +13,7 @@ const PropertyListings = () => {
   // State to manage the number of properties displayed and loading state
   const [visibleProperties, setVisibleProperties] = useState(6);
   const [loading, setLoading] = useState(false);
+  const [properties, setProperties] = useState([]);
 
   const loadMoreProperties = () => {
     setLoading(true);
@@ -21,6 +22,21 @@ const PropertyListings = () => {
       setLoading(false);
     }, 500); // 500ms debounce
   };
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/properties`);
+      console.log("response", res.data);
+      setProperties(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }};
+     
+    fetchProperties();
+  }, []);
+
+  
 
   return (
     <div className="p-4 lg:w-[90%] mx-auto">

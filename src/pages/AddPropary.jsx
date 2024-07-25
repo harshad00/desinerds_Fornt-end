@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import {
   Button,
   InputBox,
@@ -130,23 +131,18 @@ const AddProperty = () => {
     console.log(updatedProperty);
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/v1/property/add",
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/properties`,
+        updatedProperty,
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${yourAuthToken}`, // Replace with your actual token
           },
-          body: JSON.stringify(updatedProperty),
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const responseData = await response.json();
-      console.log(responseData);
+      console.log(response.data);
       // Handle success response
     } catch (error) {
       console.error("Error adding property:", error);
@@ -393,36 +389,39 @@ const AddProperty = () => {
             </div>
           </div>
         </div>
-        
+
         {/* // !  meal */}
-        <h3> Meal</h3>
+
         {property.type === "PG" && (
-          <div className="flex flex-col max-w-xs w-full sm:w-1/2">
-            {newFields.meal.map((meal, index) => (
-              <div key={index} className="flex flex-col mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  {meal.day}
-                </label>
-                {Object.keys(meal.meals).map((time) => (
-                  <div
-                    key={time}
-                    className="flex flex-col sm:flex-row items-start sm:items-center mb-2"
-                  >
-                    <InputBox
-                      onChange={(e) =>
-                        handleInputChange(e, index, "meal", time)
-                      }
-                      name={`${meal.day}-${time}`}
-                      label={time.charAt(0).toUpperCase() + time.slice(1)}
-                      placeholder={`Enter ${time} items separated by comma`}
-                      value={meal.meals[time].join(", ")}
-                      className="flex-1 mb-2 sm:mb-0 outline-box"
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+          <>
+            <h3> Meal</h3>
+            <div className="flex flex-col max-w-xs w-full sm:w-1/2">
+              {newFields.meal.map((meal, index) => (
+                <div key={index} className="flex flex-col mb-4">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {meal.day}
+                  </label>
+                  {Object.keys(meal.meals).map((time) => (
+                    <div
+                      key={time}
+                      className="flex flex-col sm:flex-row items-start sm:items-center mb-2"
+                    >
+                      <InputBox
+                        onChange={(e) =>
+                          handleInputChange(e, index, "meal", time)
+                        }
+                        name={`${meal.day}-${time}`}
+                        label={time.charAt(0).toUpperCase() + time.slice(1)}
+                        placeholder={`Enter ${time} items separated by comma`}
+                        value={meal.meals[time].join(", ")}
+                        className="flex-1 mb-2 sm:mb-0 outline-box"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
         <div className="flex flex-col mb-4">
