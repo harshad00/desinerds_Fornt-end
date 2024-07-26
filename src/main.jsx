@@ -15,6 +15,7 @@ import Auth from "./pages/Auth.jsx";
 import EmailAuth from "./pages/changePassword/EmailAuth.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 import Property from "./components/properties/Property.jsx";
+import User from "./pages/User.jsx";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/change_password",
         element: <ChangePassword />,
+      },
+      {
+        path: "/user",
+        element: <User />,
       },
     ],
   },
