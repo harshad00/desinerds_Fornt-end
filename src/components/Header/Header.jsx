@@ -5,8 +5,7 @@ import Dropdown from "./Dropdown";
 
 const navItems = [
   { name: "Rent", slug: "/", active: true },
-  { name: "Buy", slug: "/buy", active: true },
-  { name: "Sell", slug: "/sell", active: true },
+  { name: "Properties", slug: "/properties", active: true },
   {
     name: "Manage Property",
     slug: "/manage-property",

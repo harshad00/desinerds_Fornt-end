@@ -6,24 +6,30 @@ import {
   SubHeading,
   InputBox,
   BottomWarning,
+  RadioButton,
 } from "../components";
 import axios from "axios";
 
 function Login() {
   const [detail, setDetail] = useState({
-    username: "",
+    identifier: "",
     password: "",
+    role: "user",
   });
 
   const handleInputChange = (e) => {
     setDetail({ ...detail, [e.target.name]: e.target.value });
   };
 
+  const handleRoleChange = (e) => {
+    setDetail({ ...detail, role: e.target.value });
+  };
+
   const handleButtonClick = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signin",
+       `${import.meta.env.VITE_BACKEND_URL}/user/signin`,
         detail
       );
       console.log(response.data);
@@ -32,18 +38,37 @@ function Login() {
       console.error("Error signing up:", error);
     }
   };
-  //! console.log(detail);
+
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
         <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
           <Heading label={"Login"} />
           <SubHeading label={"Enter your credentials to access your account"} />
+          <div className="flex justify-around mt-4">
+            <label htmlFor="" className=" font-bold"> Login as</label>
+            <RadioButton
+              name="role"
+              value="user"
+              label="User"
+              checked={detail.role === "user"}
+              onChange={handleRoleChange}
+              hoverMessage="Select this if you are a regular user"
+            />
+            <RadioButton
+              name="role"
+              value="owner"
+              label="Owner"
+              checked={detail.role === "owner"}
+              onChange={handleRoleChange}
+              hoverMessage="Select this if you are a store owner"
+            />
+          </div>
           <InputBox
             onChange={handleInputChange}
-            name="username"
-            placeholder="harkirat@gmail.com"
-            label={"Email"}
+            name="identifier"
+            placeholder="Enter your Email or Phone Number"
+            label={"Email or PhoneNo."}
           />
           <InputBox
             onChange={handleInputChange}
@@ -51,10 +76,12 @@ function Login() {
             placeholder="123456"
             label={"Password"}
           />
-           
-           <Link to={"/forgot_pasword"}>
-           <div className=" text-blue-600 pt-3 font-semibold text-start pl-1  hover:underline"> Forgot Pasword</div>
-           </Link>
+          <Link to={"/forgot_pasword"}>
+            <div className=" text-blue-600 pt-3 font-semibold text-start pl-1  hover:underline">
+              {" "}
+              Forgot Password
+            </div>
+          </Link>
           <div className="pt-4">
             <Button onClick={handleButtonClick} label={"Login"} />
           </div>

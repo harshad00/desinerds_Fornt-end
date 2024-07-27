@@ -3,19 +3,19 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import Home from "./pages/Home.jsx";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Buy from "./pages/Buy.jsx";
-import Sell from "./pages/Sell.jsx";
-import Manager from "./pages/Manager.jsx";
-import Manager2 from "./pages/Manager2.jsx";
-import Details from "./pages/Details.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
 import Auth from "./pages/Auth.jsx";
 import EmailAuth from "./pages/changePassword/EmailAuth.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
-import Property from "./components/properties/Property.jsx";
+import Details from "./pages/Details.jsx";
+import PropertyListings from "./pages/PropertyListings.jsx";
+import AddProperty from "./pages/AddProperty.jsx";
+import Success from "./pages/Success.jsx";
+import Manager from "./pages/Manager.jsx";
+import Manager2 from "./pages/Manager2.jsx";
 import User from "./pages/User.jsx";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -25,14 +25,6 @@ const router = createBrowserRouter([
       {
         index: true, // This makes the child route match the same path as the parent
         element: <Home />,
-      },
-      {
-        path: "/buy",
-        element: <Buy />,
-      },
-      {
-        path: "/sell",
-        element: <Sell />,
       },
       {
         path: "/manage-property/subitem2",
@@ -47,8 +39,12 @@ const router = createBrowserRouter([
         element: <Details />,
       },
       {
-        path: "/property",
-        element: <Property />,
+        path: "/properties",
+        element: <PropertyListings />,
+      },
+      {
+        path: "/properties/:id",
+        element: <Details />,
       },
       {
         path: "/signUp",
@@ -63,7 +59,7 @@ const router = createBrowserRouter([
         element: <Auth />,
       },
       {
-        path: "/forgot_pasword",
+        path: "/forgot_password",
         element: <EmailAuth />,
       },
       {
@@ -73,6 +69,14 @@ const router = createBrowserRouter([
       {
         path: "/user",
         element: <User />,
+      },
+      {
+        path: "/addProperty",
+        element: <AddProperty />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
       },
     ],
   },
