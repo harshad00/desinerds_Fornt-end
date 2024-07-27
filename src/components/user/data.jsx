@@ -7,7 +7,7 @@ export const hobbies = [
   "Shopping",
   "Dance",
 ];
-
+// fix the user
 export const data = [
   {
     url: "https://cdn-icons-png.flaticon.com/128/25/25694.png",
