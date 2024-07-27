@@ -1,0 +1,24 @@
+{
+  "occupancyData": [
+    { "type": "Single Occupancy", "rent": "₹21,899/mo*" },
+    { "type": "Double Occupancy", "rent": "₹15,699/mo*" },
+    { "type": "Double Occupancy", "rent": "₹15,699/mo*" },
+    { "type": "Double Occupancy", "rent": "₹15,699/mo*" },
+    { "type": "Double Occupancy", "rent": "₹15,699/mo*" }
+  ],
+  "amenitiesData": [
+    "Attached Washroom",
+    "Attached Washroom",
+    "Attached Washroom",
+    "Attached Washroom",
+    "Spacious Cupboard"
+  ],
+  "servicesData": [
+    "Professional Housekeeping",
+    "Laundry Service",
+    "High-Speed WIFI",
+    "Hot and Delicious Meals",
+    "High-Speed WIFI",
+    "Hot and Delicious Meals"
+  ]
+}
