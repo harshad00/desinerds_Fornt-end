@@ -16,6 +16,11 @@ import Details from "./pages/Details.jsx";
 // import Property from "./pages/Property.jsx";
 import PropertyListings  from "./pages/PropertyListings.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
+import AboutCompany from "./components/Footer/About.jsx";
+import HowItWorks from "./components/Footer/HowItWorks.jsx";
+import UserPage from "./pages/UserPage.jsx";
+import MatchesPage from "./pages/MatchesPage.jsx";
+import RoommateForm from "./components/RoomMate/RoomMateForm.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +71,26 @@ const router = createBrowserRouter([
         path: "/change_password",
         element: <ChangePassword />,
       },
+      {
+        path: "/About",
+        element: <AboutCompany/>,
+      },
+      {
+        path: "/howitworks",
+        element: <HowItWorks/>,
+      },
+      {
+        path:"/user/:id",
+        element:<UserPage/>
+      },
+      {
+        path:"/matches",
+        element:<MatchesPage/>
+      },
+      {
+        path:"/mateform",
+        element:<RoommateForm/>
+      }
     ],
   },
 ]);
