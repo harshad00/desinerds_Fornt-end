@@ -6,7 +6,8 @@ import ToggleSwitch from "../components/user/ToggleSwitch";
 import HostelBooking from "../components/user/HostelBooking";
 
 function User() {
-  const [isOwner, setIsOwner] = useState("User");
+  const [isOwner, setIsOwner] = useState("Owner");
+
   return (
     <>
       <div className="w-[100%] h-[90%] flex flex-col items-center justify-center mt-[4%]  ">

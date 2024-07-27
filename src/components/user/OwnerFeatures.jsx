@@ -11,6 +11,7 @@ function OwnerFeatures() {
         {data.map((item, index) => {
           return (
             <div
+            key={index}
               className={`flex mb-10 h-60 w-[95%] lg:h-40 md:w-1/2 lg:w-5/12 rounded-xl p-1 mr-10 ${
                 index % 2 === 0
                   ? " bg-violet-900  text-white  "

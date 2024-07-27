@@ -4,7 +4,7 @@ function UserCard(type) {
   return (
     <div className="m-6 bg-white   rounded-xl sm:w-[40%] shadow-md overflow-hidden lg:w-[23%] h-[60%] ">
       <div className="md:flex w-[100%] flex-col justify-center items-center h-[100%]">
-        <div className="md:flex-shrink-0 bg-black rounded-sm w-[100%] flex justify-center">
+        <div className="md:flex-shrink-0 bg-purple-400/60 rounded-sm w-[100%] flex justify-center">
           <img
             className="h-24  object-cover  rounded-full m-5 "
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFntf1FaTnhi0CW2chQT1ZjiQKWdiB12AE-w&s" // Random photo URL from Unsplash
