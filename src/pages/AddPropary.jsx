@@ -1,5 +1,7 @@
-import { useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router";
 import {
   Button,
   InputBox,
@@ -8,6 +10,9 @@ import {
   BottomWarning,
   RadioButton,
 } from "../components";
+
+const cloudName = import.meta.env.VITE_CLOUD_NAME; // Your Cloudinary cloud name
+const Preset = import.meta.env.VITE_PRESET_CLOUD; // Your Cloudinary Preset
 
 const AddProperty = () => {
   const daysOfWeek = [
@@ -20,12 +25,10 @@ const AddProperty = () => {
     "Sunday",
   ];
 
+
+  const navigate = useNavigate(); // Hook for navigation
+
   const [property, setProperty] = useState({
-    occupancy: [],
-    amenities: [],
-    services: [],
-    menu: [],
-    images: [],
     type: "Room/Flat", // Default value
     accommodationType: "", //! Added gender field
     address: {
@@ -42,17 +45,18 @@ const AddProperty = () => {
     },
     title: "", // Added property name
     description: "", // Added detailed information
-    bhk: "", // ariya of room
-    area: "", //
-    price: "", //
+    bhk: "30", // ariya of room
+    area: "24", //
+    price: "100", //
     VRimages: [],
+    images: [],
   });
 
   const [newFields, setNewFields] = useState({
     occupancy: [""],
-    amenity: [""],
-    service: [""],
-    meal: daysOfWeek.map((day) => ({
+    services: [""],
+    amenities: [""],
+    menu: daysOfWeek.map((day) => ({
       day,
       meals: {
         breakfast: [""],
@@ -61,15 +65,14 @@ const AddProperty = () => {
         dinner: [""],
       },
     })),
-    imageSrc: [],
   });
 
   const handleInputChange = (e, index, field, mealTime = null) => {
     const { value } = e.target;
     if (mealTime) {
-      const updatedMeal = [...newFields.meal];
+      const updatedMeal = [...newFields.menu];
       updatedMeal[index].meals[mealTime] = value.split(", ");
-      setNewFields({ ...newFields, meal: updatedMeal });
+      setNewFields({ ...newFields, menu: updatedMeal });
     } else {
       const updatedFields = [...newFields[field]];
       updatedFields[index] = value;
@@ -96,13 +99,41 @@ const AddProperty = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setNewFields({ ...newFields, imageSrc: files });
+  const handleFileChange = async (e, type) => {
+    try {
+      const files = Array.from(e.target.files);
+      const uploadedUrls = await Promise.all(
+        files.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", Preset); // Replace with your preset
+          formData.append("cloud_name", "cloudName"); // Replace with your cloud name
+
+          const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            formData
+          );
+          return response.data.secure_url;
+        })
+      );
+
+      const filteredUrls = uploadedUrls.filter((url) => url !== null);
+
+      // Update state based on the type (images or VRimages)
+      if (type === "images") {
+        setProperty((prev) => ({ ...prev, images: filteredUrls }));
+        console.log("Images state updated:", filteredUrls); // Add console log
+      } else if (type === "VRimages") {
+        setProperty((prev) => ({ ...prev, VRimages: filteredUrls }));
+      }
+    } catch (error) {
+      console.error("Error in handleFileChange:", error);
+    }
   };
 
+  // ! menu
   const addField = (field) => {
-    if (field === "meal" && newFields.meal.length >= 7) return; // Restrict to 7 days
+    if (field === "menu" && newFields.menu.length >= 7) return; // Restrict to 7 days
     setNewFields({ ...newFields, [field]: [...newFields[field], ""] });
   };
 
@@ -111,6 +142,32 @@ const AddProperty = () => {
     updatedFields.splice(index, 1);
     setNewFields({ ...newFields, [field]: updatedFields });
   };
+  useEffect(() => {
+    const yourAuthToken = localStorage.getItem("token");
+    async function addproperty() {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/properties`,
+          property,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${yourAuthToken}`, // Replace with your actual token
+            },
+          }
+        );
+        navigate("/success");
+        // console.log(response.data);
+        // Handle success response
+      } catch (error) {
+        console.error("Error adding property:", error);
+      }
+    }
+    if (property.images.length > 0 && property.VRimages.length > 0) {
+      addproperty();
+    }
+  }, [property]);
+
 
   const handleButtonClick = async (e) => {
     e.preventDefault();
@@ -118,7 +175,7 @@ const AddProperty = () => {
 
     // Push new fields data into property object
     for (const key in newFields) {
-      const dataKey = `${key}Data`;
+      const dataKey = `${key}`;
       if (Array.isArray(newFields[key])) {
         updatedProperty[dataKey] = newFields[key];
       } else {
@@ -129,24 +186,6 @@ const AddProperty = () => {
     setProperty(updatedProperty);
 
     console.log(updatedProperty);
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/properties`,
-        updatedProperty,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${yourAuthToken}`, // Replace with your actual token
-          },
-        }
-      );
-
-      console.log(response.data);
-      // Handle success response
-    } catch (error) {
-      console.error("Error adding property:", error);
-    }
   };
 
   return (
@@ -324,23 +363,23 @@ const AddProperty = () => {
           </div>
 
           <div className="flex flex-col max-w-xs w-full sm:w-1/2">
-            {newFields.amenity.map((_, index) => (
+            {newFields.amenities.map((_, index) => (
               <div
                 key={index}
                 className="flex flex-col sm:flex-row items-start sm:items-center mb-2"
               >
                 <InputBox
-                  onChange={(e) => handleInputChange(e, index, "amenity")}
-                  name="amenity"
+                  onChange={(e) => handleInputChange(e, index, "amenities")}
+                  name="amenities"
                   label={"Amenities Data"}
                   placeholder={`Enter amenity, Enter amenity`}
-                  value={newFields.amenity[index]}
+                  value={newFields.amenities[index]}
                   className="flex-1 mb-2 sm:mb-0 outline-box" // Added outline-box class
                 />
-                {newFields.amenity.length > 1 && (
+                {newFields.amenities.length > 1 && (
                   <button
                     className="text-red-500 mt-2 sm:mt-0"
-                    onClick={() => deleteField(index, "amenity")}
+                    onClick={() => deleteField(index, "amenities")}
                   >
                     <i className="fas fa-trash-alt"></i>
                   </button>
@@ -350,30 +389,30 @@ const AddProperty = () => {
             <div className="w-40">
               <Button
                 label={"Add Amenity"}
-                onClick={() => addField("amenity")}
+                onClick={() => addField("amenities")}
                 className="w-full outline-box" // Added outline-box class
               />
             </div>
           </div>
 
           <div className="flex flex-col max-w-xs w-full sm:w-1/2">
-            {newFields.service.map((_, index) => (
+            {newFields.services.map((_, index) => (
               <div
                 key={index}
                 className="flex flex-col sm:flex-row items-start sm:items-center mb-2"
               >
                 <InputBox
-                  onChange={(e) => handleInputChange(e, index, "service")}
-                  name="service"
+                  onChange={(e) => handleInputChange(e, index, "services")}
+                  name="services"
                   label={"Services Data"}
                   placeholder={`Enter service, Enter service`}
-                  value={newFields.service[index]}
+                  value={newFields.services[index]}
                   className="flex-1 mb-2 sm:mb-0 outline-box" // Added outline-box class
                 />
-                {newFields.service.length > 1 && (
+                {newFields.services.length > 1 && (
                   <button
                     className="text-red-500 mt-2 sm:mt-0"
-                    onClick={() => deleteField(index, "service")}
+                    onClick={() => deleteField(index, "services")}
                   >
                     <i className="fas fa-trash-alt"></i>
                   </button>
@@ -383,11 +422,46 @@ const AddProperty = () => {
             <div className="w-40">
               <Button
                 label={"Add Service"}
-                onClick={() => addField("service")}
+                onClick={() => addField("services")}
                 className="w-full outline-box" // Added outline-box class
               />
             </div>
           </div>
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <InputBox
+            name="bhk"
+            value={property.bhk}
+            onChange={handlePropertyChange}
+            label={"BHK"}
+            placeholder={"Enter BHK"}
+          />
+          <InputBox
+            name="area"
+            value={property.area}
+            onChange={handlePropertyChange}
+            label={"Area"}
+            placeholder={"Enter area in sq. ft."}
+          />
+          <InputBox
+            name="price"
+            value={property.price}
+            onChange={handlePropertyChange}
+            label={"Price"}
+            placeholder={"Enter price"}
+          />
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Upload VR Images
+          </label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => handleFileChange(e, "VRimages")}
+          />
         </div>
 
         {/* // !  meal */}
@@ -396,7 +470,7 @@ const AddProperty = () => {
           <>
             <h3> Meal</h3>
             <div className="flex flex-col max-w-xs w-full sm:w-1/2">
-              {newFields.meal.map((meal, index) => (
+              {newFields.menu.map((meal, index) => (
                 <div key={index} className="flex flex-col mb-4">
                   <label className="block text-sm font-medium text-gray-700">
                     {meal.day}
@@ -431,11 +505,9 @@ const AddProperty = () => {
           <input
             type="file"
             multiple
-            onChange={handleFileChange}
-            className="mb-2"
+            onChange={(e) => handleFileChange(e, "images")}
           />
         </div>
-
         <Button label={"Add Property"} onClick={handleButtonClick} />
 
         <BottomWarning label={"Please fill out all required fields"} />

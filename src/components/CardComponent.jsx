@@ -11,7 +11,7 @@ const CardComponent = ({props}) => {
        <Link to={`/properties/${props._id}`}>
         <img
           className="w-full h-48 object-cover"
-          src={props.photos[0]} 
+          src={props?.images[0]} 
           alt="House"
         />
         </Link>
@@ -20,9 +20,9 @@ const CardComponent = ({props}) => {
         </div>}
       </div>
       <div className="p-4">
-        <h2 className="text-2xl font-semibold text-gray-800">{props.price}/month</h2>
-        <p className="text-gray-600 mt-1">{props.title}</p>
-        <p className="text-gray-600">{props.location}</p>
+        <h2 className="text-2xl font-semibold text-gray-800">{props?.price}/month</h2>
+        <p className="text-gray-600 mt-1">{props?.title}</p>
+        <p className="text-gray-600">{props?.location}</p>
         <div className="flex items-center mt-4">
           <div className="flex items-center">
             <svg
@@ -39,7 +39,7 @@ const CardComponent = ({props}) => {
                 d="M20 13V20H4V13M12 3V15M12 3L6 10H18L12 3Z"
               />
             </svg>
-            <span className="ml-2 text-gray-600">{props.bhk}</span>
+            <span className="ml-2 text-gray-600">{props?.bhk}</span>
           </div>
           <div className="flex items-center ml-4">
           </div>
@@ -58,7 +58,7 @@ const CardComponent = ({props}) => {
                 d="M12 8c-1.38 0-2.63.56-3.54 1.46a5.012 5.012 0 000 7.07A5.012 5.012 0 0012 18a5.012 5.012 0 003.54-1.46 5.012 5.012 0 000-7.07A5.012 5.012 0 0012 8zm0 10a4.992 4.992 0 01-3.54-1.46 4.992 4.992 0 010-7.07A4.992 4.992 0 0112 10a4.992 4.992 0 013.54 1.46 4.992 4.992 0 010 7.07A4.992 4.992 0 0112 18z"
               />
             </svg>
-            <span className="ml-2 text-gray-600">{props.area}</span>
+            <span className="ml-2 text-gray-600">{props?.area}</span>
           </div>
         </div>
       </div>

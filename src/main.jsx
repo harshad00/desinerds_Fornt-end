@@ -6,6 +6,7 @@ import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
 import Auth from "./pages/Auth.jsx";
+
 // import ChangePassword from "./pages/ChangePassword.jsx";
 import EmailAuth from "./pages/changePassword/EmailAuth.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -17,6 +18,7 @@ import Details from "./pages/Details.jsx";
 import PropertyListings  from "./pages/PropertyListings.jsx";
 import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 import AddProperty from "./pages/AddPropary.jsx";
+import Success from "./pages/Success.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -68,8 +70,12 @@ const router = createBrowserRouter([
         element: <ChangePassword />,
       },
       {
-        path: "/addPropary",
-        element: <AddProperty/>,
+        path: "/addProperty",
+        element: <AddProperty />,
+      },
+      {
+        path: "/success",
+        element: <Success/>,
       },
     ],
   },

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import CardComponent from "../components/CardComponent";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Loader from "../components/Loader"; // import the Loader component
+import { Loader } from "../components";
 
 const PropertyListings = () => {
   const location = useLocation();
@@ -22,24 +22,28 @@ const PropertyListings = () => {
       setLoading(false);
     }, 500); // 500ms debounce
   };
-
+   
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         setFetching(true);
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/properties`);
-        console.log("response", res.data);
-        setProperties(res.data);
+        const data = res.data;
+  
+        // Store the data as a JSON string
+        localStorage.setItem("data", JSON.stringify(data));
+        setProperties(data);
+  
         setFetching(false);
       } catch (error) {
         console.log(error.message);
         setFetching(false);
       }
     };
-
+  
     fetchProperties();
   }, []);
-
+  
   return (
     <div className="p-4 lg:w-[90%] mx-auto">
       {isHomeRoute && (
@@ -98,7 +102,7 @@ const PropertyListings = () => {
             </div>
           )}
 
-          {visibleProperties < properties.length && (
+          {visibleProperties < properties?.length && (
             <div className="text-center mt-6">
               <button
                 onClick={loadMoreProperties}

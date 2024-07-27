@@ -13,7 +13,7 @@ import VirtualTour from "./details/VirtualTour";
 import DetailsNav from "./details/DetailsNav";
 import Property from "./properties/Property";
 import RentIcon from "./HomeComponant/RentIcon";
-import Loader from "./loader";
+import Loader from "./Loader";
 
 export { 
     Header,

@@ -18,19 +18,21 @@
 
 // export default InputBox;
 
-const InputBox = ({ onChange, name, label, placeholder, value, className }) => {
+const InputBox = ({ onChange, name, label, placeholder, value, className ,type='text' }) => {
   return (
-    <div className={`w-full ${className}`}>
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
-      <input
-        type="text"
-        name={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        className="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm p-2"
-      />
-    </div>
+    <div className={`w-full my-5  ${className}`}>
+      <div className=" w-full flex justify-start">
+    <label className=" text-sm font-medium text-gray-700 mb-1">{label}</label></div>
+    <input
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      className="block w-full text-sm text-gray-900  border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 outline-none shadow-sm p-2"
+    />
+  </div>
+  
   );
 };
 

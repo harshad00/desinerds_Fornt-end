@@ -3,26 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-function Slides() {
-  const images = [
-    {
-      src: "https://www.stanzaliving.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fstanza-living%2Fimage%2Fupload%2Ff_auto%2Cq_auto%2Fe_improve%2Fe_sharpen%3A10%2Fe_saturation%3A10%2Ff_auto%2Cq_auto%2Fv1657442615%2FWebsite%2FCMS-Uploads%2Fiimfzitbjcrjyf3w6b4u.jpg&w=1920&q=75",
-      alt: "img1",
-    },
-    {
-      src: "https://www.stanzaliving.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fstanza-living%2Fimage%2Fupload%2Ff_auto%2Cq_auto%2Fe_improve%2Fe_sharpen%3A10%2Fe_saturation%3A10%2Ff_auto%2Cq_auto%2Fv1657442673%2FWebsite%2FCMS-Uploads%2Ftxn0tjqmgvszqx41gvm1.jpg&w=1920&q=75",
-      alt: "img2",
-    },
-    {
-      src: "https://www.stanzaliving.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fstanza-living%2Fimage%2Fupload%2Ff_auto%2Cq_auto%2Fe_improve%2Fe_sharpen%3A10%2Fe_saturation%3A10%2Ff_auto%2Cq_auto%2Fv1657442630%2FWebsite%2FCMS-Uploads%2Fexbyqxpscvgulpt42wsf.jpg&w=1920&q=75",
-      alt: "img3",
-    },
-    {
-      src: "https://www.stanzaliving.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fstanza-living%2Fimage%2Fupload%2Ff_auto%2Cq_auto%2Fe_improve%2Fe_sharpen%3A10%2Fe_saturation%3A10%2Ff_auto%2Cq_auto%2Fv1657442637%2FWebsite%2FCMS-Uploads%2Fgmh61icp17p2jczuyoek.jpg&w=1920&q=75",
-      alt: "img4",
-    },
-  ];
-
+function Slides({ img }) {
   const settings = {
     dots: true,
     infinite: true,
@@ -32,16 +13,15 @@ function Slides() {
   };
 
   return (
-    <div className="m-3 mt-6 h-[100%] w-[100%] flex flex-col lg:flex-row justify-between items-center">
-      <div className="w-full lg:w-3/5  shadow-lg rounded-lg mb-10 lg:mb-0 ">
+    <div className="m-3 mt-6 h-full w-full flex flex-col lg:flex-row justify-between items-center">
+      <div className="w-full lg:w-3/5 shadow-lg rounded-lg mb-10 lg:mb-0">
         <Slider {...settings}>
-          {images.map((img, index) => (
-            <div key={index} className="w-[100%] h-[50%]">
+          {img.map((image, index) => (
+            <div key={index} className="w-full h-auto">
               <img
-                key={index}
-                className="w-[100%] h-[90%] object-cover shadow-lg rounded-lg "
-                src={img.src}
-                alt={img.alt}
+                className="w-full h-auto object-cover shadow-lg rounded-lg"
+                src={image}
+                alt={`Slide ${index}`}
               />
             </div>
           ))}

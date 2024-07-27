@@ -12,7 +12,7 @@ import axios from "axios";
 
 function Login() {
   const [detail, setDetail] = useState({
-    username: "",
+    identifier: "",
     password: "",
     role: "user",
   });
@@ -29,7 +29,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signin",
+       `${import.meta.env.VITE_BACKEND_URL}/user/signin`,
         detail
       );
       console.log(response.data);
@@ -66,9 +66,9 @@ function Login() {
           </div>
           <InputBox
             onChange={handleInputChange}
-            name="username"
-            placeholder="harkirat@gmail.com"
-            label={"Email"}
+            name="identifier"
+            placeholder="Enter your Email or Phone Number"
+            label={"Email or PhoneNo."}
           />
           <InputBox
             onChange={handleInputChange}
