@@ -67,6 +67,7 @@ const AddProperty = () => {
     })),
   });
 
+                 
   const handleInputChange = (e, index, field, mealTime = null) => {
     const { value } = e.target;
     if (mealTime) {
