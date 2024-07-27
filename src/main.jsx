@@ -6,19 +6,17 @@ import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
 import Auth from "./pages/Auth.jsx";
-
-// import ChangePassword from "./pages/ChangePassword.jsx";
 import EmailAuth from "./pages/changePassword/EmailAuth.jsx";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
+import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
+import Details from "./pages/Details.jsx";
+import PropertyListings from "./pages/PropertyListings.jsx";
+import AddProperty from "./pages/AddProperty.jsx";
+import Success from "./pages/Success.jsx";
 import Manager from "./pages/Manager.jsx";
 import Manager2 from "./pages/Manager2.jsx";
-import Details from "./pages/Details.jsx"; 
-// import Property from "./pages/Property.jsx";
-import PropertyListings  from "./pages/PropertyListings.jsx";
-import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
-import AddProperty from "./pages/AddPropary.jsx";
-import Success from "./pages/Success.jsx";
+import User from "./pages/User.jsx";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,7 +26,6 @@ const router = createBrowserRouter([
         index: true, // This makes the child route match the same path as the parent
         element: <Home />,
       },
-  
       {
         path: "/manage-property/subitem2",
         element: <Manager />,
@@ -38,7 +35,7 @@ const router = createBrowserRouter([
         element: <Manager2 />,
       },
       {
-        path: "/",
+        path: "/details",
         element: <Details />,
       },
       {
@@ -47,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/properties/:id",
-        element:<Details/>,
+        element: <Details />,
       },
       {
         path: "/signUp",
@@ -62,7 +59,7 @@ const router = createBrowserRouter([
         element: <Auth />,
       },
       {
-        path: "/forgot_pasword",
+        path: "/forgot_password",
         element: <EmailAuth />,
       },
       {
@@ -70,12 +67,16 @@ const router = createBrowserRouter([
         element: <ChangePassword />,
       },
       {
+        path: "/user",
+        element: <User />,
+      },
+      {
         path: "/addProperty",
         element: <AddProperty />,
       },
       {
         path: "/success",
-        element: <Success/>,
+        element: <Success />,
       },
     ],
   },
