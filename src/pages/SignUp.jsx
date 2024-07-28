@@ -9,24 +9,27 @@ import {
 } from "../components";
 import { Link } from "react-router-dom";
 import axios from "axios";
+const cloudName = import.meta.env.VITE_CLOUD_NAME; 
+const Preset = import.meta.env.VITE_PRESET_CLOUD; 
 
 const SignUp = () => {
   const [detail, setDetail] = useState({
-    username: "",
-    firstName: "",
+    name: "",
     password: "",
-    lastName: "",
-    role: "user",
-    flat: "",
-    area: "",
-    landmark: "",
-    pincode: "",
-    city: "",
-    state: "",
+    confirmPassword: "",
+    email: "",
+    phone: "",
+    photo: null, // Use null instead of an empty string for file inputs
+    role: "",
+    address: "",
   });
 
   const handleInputChange = (e) => {
-    setDetail({ ...detail, [e.target.name]: e.target.value });
+    if (e.target.type === 'file') {
+      setDetail({ ...detail, photo: e.target.files[0] }); // Handle file input
+    } else {
+      setDetail({ ...detail, [e.target.name]: e.target.value });
+    }
   };
 
   const handleRoleChange = (e) => {
@@ -36,9 +39,31 @@ const SignUp = () => {
   const handleButtonClick = async (e) => {
     e.preventDefault();
     try {
+      let photoUrl = "";
+      if (detail.photo) {
+        const formData = new FormData();
+        formData.append("file", detail.photo);
+        formData.append("upload_preset", Preset); // Replace with your preset
+        formData.append("cloud_name", cloudName); // Replace with your cloud name
+
+        const photoResponse = await axios.post(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, // Correct endpoint
+          formData
+        );
+        photoUrl = photoResponse.data.secure_url; // Get the photo URL
+      }
+      
+      const userDetails = {
+        ...detail,
+        photo: photoUrl, // Add photo URL to user details
+      };
+
+      // Log userDetails to ensure the photo URL is included
+      console.log("User Details before sending:", userDetails);
+      
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signup",
-        detail
+        `${import.meta.env.VITE_BACKEND_URL}/user/signup`,
+        userDetails
       );
       console.log(response.data);
       localStorage.setItem("token", response.data.token);
@@ -49,26 +74,20 @@ const SignUp = () => {
 
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
-      <div className=" h-screen md:h-[40rem] mt-5 overflow-x-auto scrollbar-hide">
+      <div className="h-screen md:h-[40rem] mt-5 overflow-x-auto scrollbar-hide">
         <div className="flex flex-col mb-10 justify-center">
           <div className="rounded-lg bg-white min-w-2.5 text-center p-2 h-max px-4">
             <Heading label={"Sign up"} />
             <SubHeading label={"Enter your information to create an account"} />
             <InputBox
               onChange={handleInputChange}
-              name="firstName"
-              label={"First Name"}
-              placeholder={"John"}
+              name="name"
+              label={"Name"}
+              placeholder={"e.g, John"}
             />
             <InputBox
               onChange={handleInputChange}
-              name="lastName"
-              label={"Last Name"}
-              placeholder={"Doe"}
-            />
-            <InputBox
-              onChange={handleInputChange}
-              name="username"
+              name="email"
               label={"Email"}
               placeholder={"johndoe@gmail.com"}
             />
@@ -77,46 +96,34 @@ const SignUp = () => {
               name="password"
               label={"Password"}
               placeholder={"123456"}
-            />
-            <div>
-              <label className="font-semibold">Address:</label>
-            </div>
-            <InputBox
-              onChange={handleInputChange}
-              name="flat"
-              label={"Flat, House No, PG Building, Apartment"}
-              placeholder={"123A"}
+              type="password"
             />
             <InputBox
               onChange={handleInputChange}
-              name="area"
-              label={"Area, Street, Sector"}
-              placeholder={"Sector 21"}
+              name="confirmPassword"
+              label={"Confirm Password"}
+              placeholder={"123456"}
+              type="password"
             />
             <InputBox
               onChange={handleInputChange}
-              name="landmark"
-              label={"Landmark"}
-              placeholder={"Near XYZ Park"}
-            />
-            <InputBox
-              onChange={handleInputChange}
-              name="pincode"
-              label={"Pincode"}
+              name="address"
+              label={"Address"}
               placeholder={"123456"}
             />
             <InputBox
               onChange={handleInputChange}
-              name="city"
-              label={"Town/City"}
-              placeholder={"City Name"}
+              name="phone"
+              label={"Phone No"}
+              placeholder={"7854129632"}
             />
             <InputBox
+              type={'file'}
               onChange={handleInputChange}
-              name="state"
-              label={"State"}
-              placeholder={"State Name"}
+              name="photo"
+              label={"Photo"}
             />
+            
             <div className="flex justify-around mt-4">
               <label htmlFor="">Sign Up As</label>
               <RadioButton
@@ -134,9 +141,9 @@ const SignUp = () => {
                 onChange={handleRoleChange}
               />
             </div>
-            <Link to={"/auth"}>
+            {/* <Link to={"/auth"}> */}
               <Button label={"Sign up"} onClick={handleButtonClick} />
-            </Link>
+            {/* </Link> */}
             <BottomWarning
               label={"Already have an account?"}
               to={"/signin"}

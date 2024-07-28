@@ -1,62 +1,56 @@
-import React from "react";
+import React from 'react';
 
-function Menu({ data }) {
+// const data = [
+//   {
+//     day: "Day1",
+//     meals: {
+//       breakfast: ["Bread Butter Jam", "Live Tea - Cardamom", "Masala Uttapam", "Milk", "Onion & Tomato"],
+//       lunch: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
+//       evening: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
+//       dinner: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"]
+//     }
+//   },
+//   {
+//     day: "Day2",
+//     meals: {
+//       breakfast: ["Bread Butter Jam", "Live Tea - Cardamom", "Masala Uttapam", "Milk", "Onion & Tomato"],
+//       lunch: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
+//       evening: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
+//       dinner: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"]
+//     }
+//   },
+//   // ...similar objects for Day3 to Day7
+// ];
+
+const MenuTable = ({menu}) => {
+  console.log(menu);
   return (
-    <div className="flex  w-[60vw] mt-8  ">
-      <div className="m-2 border-black border-2 p-2 w-[22%] text-center">
-        <div className="border-b-2 border-black  h-20">
-          <h1 className="font-bold">Breakfast</h1>
-          <p className="text-gray-600 font-semibold">07:30-9:00</p>
-        </div>
-        {data.breakfast.map((item, index) => {
-          return (
-            <h1 key={index} className="p-2 border-b-2 h-16 m-2 border-black">
-              {item}
-            </h1>
-          );
-        })}
-      </div>
-      <div className="m-2 border-black border-2 p-2 w-[22%] text-center">
-        <div className="border-b-2 border-black  h-20">
-          <h1 className="font-bold">Lunch</h1>
-          <p className="text-gray-600 font-semibold"> 12:30-14:30</p>
-        </div>
-        {data.lunch.map((item, index) => {
-          return (
-            <h1 key={index} className="p-2 border-b-2 h-16 m-2 border-black">
-              {item}
-            </h1>
-          );
-        })}
-      </div>
-      <div className="m-2 border-black border-2 p-2 w-[22%] text-center">
-        <div className="border-b-2 border-black  h-20">
-          <h1 className="font-bold">Evening Snacks</h1>
-          <p className="text-gray-600 font-semibold">16:30 - 17:30</p>
-        </div>
-        {data.evening.map((item, index) => {
-          return (
-            <h1 key={index} className="p-2 border-b-2 h-16 m-2 border-black">
-              {item}
-            </h1>
-          );
-        })}
-      </div>
-      <div className="m-2 border-black border-2 p-2 w-[22%] text-center">
-        <div className="border-b-2 border-black  h-20">
-          <h1 className="font-bold">Dinner</h1>
-          <p className="text-gray-600 font-semibold">9:30 - 21:00</p>
-        </div>
-        {data.dinner.map((item, index) => {
-          return (
-            <h1 key={index} className="p-2 border-b-2 h-16 m-2 border-black">
-              {item}
-            </h1>
-          );
-        })}
-      </div>
+    <div className="overflow-x-auto">
+      <h1> Menu </h1>
+      <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider border-r border-gray-300">Day</th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider border-r border-gray-300">Breakfast</th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider border-r border-gray-300">Lunch</th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider border-r border-gray-300">Evening</th>
+            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Dinner</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {menu.map((dayData, index) => (
+            <tr key={index}>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-300">{dayData.day}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">{dayData.meals.breakfast.join(', ')}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">{dayData.meals.lunch.join(', ')}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">{dayData.meals.evening.join(', ')}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dayData.meals.dinner.join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-}
+};
 
-export default Menu;
+export default MenuTable;

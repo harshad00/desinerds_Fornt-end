@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useLocation } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo";
 import Dropdown from "./Dropdown";
+import { useSelector } from "react-redux";
+import store from "../../store/store";
 
 const navItems = [
   { name: "Rent", slug: "/", active: true },
@@ -29,10 +31,13 @@ const navItems = [
 ];
 
 function Header() {
+  const usertoken = useSelector((store) => store.auth);
+  // console.log(usertoken);
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  
   const handleDropdownToggle = (index) => {
     setDropdownOpen(dropdownOpen === index ? null : index);
   };
@@ -125,30 +130,60 @@ function Header() {
               )
           )}
         </ul>
-
         <div
           className={`${
             menuOpen ? "block" : "hidden"
           } md:flex gap-3 justify-end 
           md:gap-5 md:justify-center md:items-center`}
         >
-          <Link to={'/signin'}>
-          <button className="text-[#100a55]
+          {!usertoken ? (
+            <>
+              <Link to={"/signin"}>
+                <button
+                  className="text-[#100a55]
            mx-5 font-semibold text-sm 
             md:text-base lg:text-lg
-             xl:text-xl">
-            Login
-          </button>
-          </Link>
-          <Link to={'/signup'}>
-          <button className="bg-[#7065f0]
+             xl:text-xl"
+                >
+                  Login
+                </button>
+              </Link>
+              <Link to={"/signup"}>
+                <button
+                  className="bg-[#7065f0]
            text-white font-semibold sm:p-1
             text-nowrap p-2 rounded-md
              text-sm md:text-base 
-             lg:text-lg xl:text-xl">
-            Sign up
-          </button>
-          </Link>
+             lg:text-lg xl:text-xl"
+                >
+                  Sign up
+                </button>
+              </Link>
+            </>
+          ) : (
+            <div>
+              <div className=" flex gap-3">
+                <Link to={"/user"}>
+                <div className=" flex justify-center items-center  w-10 h-10  bg-purple-300 border border-b-2 rounded-full  ">
+                  <i className="fa-solid fa-user text-2xl text-wrap " style={{color: "#ffffff",}}  ></i>
+                 
+                </div>
+                </Link>
+                <Link to={"/logout"}> 
+            
+                <button
+                  className="bg-[#f15855]
+           text-white font-semibold sm:p-1
+            text-nowrap p-2 rounded-md
+             text-sm md:text-base 
+             lg:text-lg xl:text-xl"
+                >
+                  logout
+                </button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>
