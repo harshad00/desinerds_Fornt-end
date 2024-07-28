@@ -18,3 +18,47 @@
     }
   }
 }
+/* Add this to your CSS file or in a <style> tag */
+
+.button-click-animation {
+  animation: buttonClick 0.2s ease-in-out;
+}
+
+@keyframes buttonClick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Add styles for loading button */
+.button-loading {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.button-loading:before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+

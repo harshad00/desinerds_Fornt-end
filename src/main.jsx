@@ -16,6 +16,9 @@ import Manager from "./pages/Manager.jsx";
 import Manager2 from "./pages/Manager2.jsx";
 import User from "./pages/User.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
+import Logout from "./pages/Logout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -78,12 +81,18 @@ const router = createBrowserRouter([
         path: "/success",
         element: <Success />,
       },
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

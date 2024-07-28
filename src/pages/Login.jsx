@@ -1,21 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  Button,
-  Heading,
-  SubHeading,
-  InputBox,
-  BottomWarning,
-  RadioButton,
-} from "../components";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Heading, SubHeading, InputBox, BottomWarning, RadioButton } from "../components";
 import axios from "axios";
+import { addUser } from "../store/authSlice";
+import { useDispatch } from "react-redux";
 
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [detail, setDetail] = useState({
     identifier: "",
     password: "",
     role: "user",
   });
+  const [buttonClass, setButtonClass] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleInputChange = (e) => {
     setDetail({ ...detail, [e.target.name]: e.target.value });
@@ -27,15 +27,24 @@ function Login() {
 
   const handleButtonClick = async (e) => {
     e.preventDefault();
+    setButtonClass("button-click-animation"); // Add animation class
+    setLoading(true); // Set loading to true
     try {
       const response = await axios.post(
-       `${import.meta.env.VITE_BACKEND_URL}/user/signin`,
+        `${import.meta.env.VITE_BACKEND_URL}/user/signin`,
         detail
       );
       console.log(response.data);
-      localStorage.setItem("token", response.data.token);
+      dispatch(addUser(response.data.token));
+
+      // Navigate to the home page after animation
+      setTimeout(() => {
+        navigate("/");
+      }, 200); // Adjust the delay as needed
     } catch (error) {
       console.error("Error signing up:", error);
+    } finally {
+      setLoading(false); // Set loading to false
     }
   };
 
@@ -46,7 +55,7 @@ function Login() {
           <Heading label={"Login"} />
           <SubHeading label={"Enter your credentials to access your account"} />
           <div className="flex justify-around mt-4">
-            <label htmlFor="" className=" font-bold"> Login as</label>
+            <label htmlFor="" className="font-bold"> Login as</label>
             <RadioButton
               name="role"
               value="user"
@@ -76,14 +85,18 @@ function Login() {
             placeholder="123456"
             label={"Password"}
           />
-          <Link to={"/forgot_pasword"}>
-            <div className=" text-blue-600 pt-3 font-semibold text-start pl-1  hover:underline">
-              {" "}
+          <Link to={"/forgot_password"}>
+            <div className="text-blue-600 pt-3 font-semibold text-start pl-1 hover:underline">
               Forgot Password
             </div>
           </Link>
           <div className="pt-4">
-            <Button onClick={handleButtonClick} label={"Login"} />
+            <Button
+              onClick={handleButtonClick}
+              label={loading ? "Loading..." : "Login"}
+              className={`${buttonClass} ${loading ? "bg-gray-400 cursor-not-allowed" : ""}`}
+              disabled={loading} // Disable button while loading
+            />
           </div>
           <BottomWarning
             label={"Don't have an account?"}

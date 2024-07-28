@@ -4,8 +4,14 @@ import CardComponent from "../components/CardComponent";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "../components";
+import { addProperty } from "../store/propertySlice";
+import { useDispatch } from "react-redux";
+
 
 const PropertyListings = () => {
+  
+  const dispatch = useDispatch()
+
   const location = useLocation();
   const isHomeRoute = location.pathname === "/";
   const isPropertiesRoute = location.pathname === "/properties";
@@ -32,6 +38,7 @@ const PropertyListings = () => {
   
         // Store the data as a JSON string
         localStorage.setItem("data", JSON.stringify(data));
+        dispatch(addProperty(JSON.stringify(data)))
         setProperties(data);
   
         setFetching(false);
