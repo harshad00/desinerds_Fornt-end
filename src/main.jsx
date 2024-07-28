@@ -19,6 +19,13 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
 import Logout from "./pages/Logout.jsx";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+import UpdateProperty from "./pages/UpdateProperty.jsx";
+=======
+>>>>>>> 999982b0ab1795af8479e69f0fe7c53b4d5c4fea
+>>>>>>> d2c6dc919367ec34773b0eead117dac76a1f937b
 
 const router = createBrowserRouter([
   {
@@ -84,6 +91,16 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         element: <Logout />,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      },
+      {
+        path: "/updateProperty/:id",
+        element: <UpdateProperty/>,
+=======
+>>>>>>> 999982b0ab1795af8479e69f0fe7c53b4d5c4fea
+>>>>>>> d2c6dc919367ec34773b0eead117dac76a1f937b
       },
     ],
   },

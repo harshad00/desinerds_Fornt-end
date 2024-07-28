@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from './authSlice'; // Make sure the import path is correct
-import  propertyReducer from './propertySlice'; // Make sure the import path is correct
+import authReducer from './authSlice'; // Adjust the path if needed
+import propertyReducer from './propertySlice'; // Adjust the path if needed
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        property: propertyReducer  
+        property: propertyReducer,
     },
 });
 

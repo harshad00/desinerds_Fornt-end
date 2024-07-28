@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import { Slides, VirtualTour, DetailsNav } from "../components";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addProperty } from "../store/propertySlice";
 
 function Details() {
   const { id } = useParams();
   const [property, setProperty] = useState(null); // State to store the property data
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const data = localStorage.getItem('data');
+    // Fetch data from localStorage
+    const data = localStorage.getItem("data");
 
+    // Dispatch the data to the Redux store
     if (data) {
+      dispatch(addProperty(JSON.parse(data))); // Dispatch parsed data
+
       try {
         // Parse the JSON string into an array of objects
         const parsedData = JSON.parse(data);
@@ -17,7 +24,7 @@ function Details() {
         // Check if parsedData is an array
         if (Array.isArray(parsedData)) {
           // Find the property with the matching _id
-          const foundProperty = parsedData.find(item => item._id === id);
+          const foundProperty = parsedData.find((item) => item._id === id);
 
           if (foundProperty) {
             setProperty(foundProperty); // Store the found property in state
@@ -27,16 +34,16 @@ function Details() {
             setProperty(null); // Clear property if not found
           }
         } else {
-          console.error('Parsed data is not an array');
+          console.error("Parsed data is not an array");
         }
       } catch (error) {
-        console.error('Failed to parse data from localStorage', error);
+        console.error("Failed to parse data from localStorage", error);
       }
     }
-  }, [id]);
+  }, [id, dispatch]);
 
   if (!property) {
-    return <div>Loading...</div>; // Show a loading message or handle no data case
+    return <div>Loading...</div>;
   }
 
   return (
@@ -56,13 +63,16 @@ function Details() {
         <p className="text-gray-700 text-xl lg:text-2xl">Start from</p>
         <h1 className="text-3xl lg:text-4xl font-bold">₹{property.price}/mo*</h1>
         <p className="text-gray-700 text-lg lg:text-xl">
-          *Denotes starting price inclusive of taxes. Final prices may vary
-          based on room occupancy, customized services, and additional
-          attributes.
+          {property.description}
         </p>
       </div>
       <VirtualTour />
-      <DetailsNav />
+      <DetailsNav
+        occupancyData={property.occupancy}
+        amenitiesData={property.amenities}
+        servicesData={property.services}
+        menu={property.menu}
+      />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-// Occupancy.js
 import React from "react";
 
 const Occupancy = ({ occupancy }) => {
@@ -17,7 +16,7 @@ const Occupancy = ({ occupancy }) => {
               <h1 className="text-lg font-bold lg:text-xl text-gray-700">
                 {item.type}
               </h1>
-              <h2 className="text-xl lg:text-2xl font-bold">{item.rent}</h2>
+              <h2 className="text-xl lg:text-2xl font-bold">₹{item.rent} Mo*</h2>
             </div>
           </div>
         ))}

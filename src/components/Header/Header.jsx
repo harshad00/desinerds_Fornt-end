@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useLocation } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo";
 import Dropdown from "./Dropdown";
@@ -37,6 +37,7 @@ function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  
   const handleDropdownToggle = (index) => {
     setDropdownOpen(dropdownOpen === index ? null : index);
   };

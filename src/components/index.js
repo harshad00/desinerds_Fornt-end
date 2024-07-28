@@ -14,6 +14,11 @@ import DetailsNav from "./details/DetailsNav";
 import Property from "./properties/Property";
 import RentIcon from "./HomeComponant/RentIcon";
 import Loader from "./Loader";
+import HostelBooking from "./user/HostelBooking";
+import OwnerFeatures from "./user/OwnerFeatures";
+import ToggleSwitch from "./user/ToggleSwitch";
+import UserCard from "./user/UserCard";
+import UserDetails from "./user/UserDetails";
 
 export { 
     Header,
@@ -31,5 +36,10 @@ export {
     DetailsNav,
     Property,
     RentIcon,
-    Loader
-}
+    Loader,
+    HostelBooking,
+    OwnerFeatures,
+    UserCard,
+    UserDetails,
+    ToggleSwitch
+};

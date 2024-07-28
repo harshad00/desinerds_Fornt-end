@@ -1,15 +1,11 @@
-// DetailsNav.js
 import React, { useRef } from "react";
 import Menu from "./Menu";
 import MoreInfo from "./MoreInfo";
 import Occupancy from "./Occupancy";
 import Amenities from "./Amenities";
 import Services from "./Services";
-import data from './data.json';
 
-function DetailsNav() {
-  const { occupancyData, amenitiesData, servicesData } = data;
-
+function DetailsNav({ occupancyData, amenitiesData, servicesData, menu }) {
   const serviceRef = useRef(null);
   const amenitiesRef = useRef(null);
   const moreRef = useRef(null);
@@ -56,7 +52,7 @@ function DetailsNav() {
       <div className="mt-8">
         <h1 className="text-2xl lg:text-3xl font-bold">Food Menu</h1>
         <div className="flex flex-wrap">
-          <Menu />
+          <Menu menu={menu} />
         </div>
       </div>
 

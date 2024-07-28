@@ -1,30 +1,11 @@
 import React from 'react';
 
-const data = [
-  {
-    day: "Day1",
-    meals: {
-      breakfast: ["Bread Butter Jam", "Live Tea - Cardamom", "Masala Uttapam", "Milk", "Onion & Tomato"],
-      lunch: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
-      evening: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
-      dinner: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"]
-    }
-  },
-  {
-    day: "Day2",
-    meals: {
-      breakfast: ["Bread Butter Jam", "Live Tea - Cardamom", "Masala Uttapam", "Milk", "Onion & Tomato"],
-      lunch: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
-      evening: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"],
-      dinner: ["Chapati", "Cucumber Raita", "Dal-Fry", "Green Salad", "Plain Rice"]
-    }
-  },
-  // ...similar objects for Day3 to Day7
-];
-
-const MenuTable = () => {
+// The `data` array is commented out and the `menu` prop is used instead.
+const MenuTable = ({ menu }) => {
+  console.log(menu);
   return (
     <div className="overflow-x-auto">
+      <h1>Menu</h1>
       <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
         <thead className="bg-gray-50">
           <tr>
@@ -36,7 +17,7 @@ const MenuTable = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data.map((dayData, index) => (
+          {menu.map((dayData, index) => (
             <tr key={index}>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-300">{dayData.day}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">{dayData.meals.breakfast.join(', ')}</td>

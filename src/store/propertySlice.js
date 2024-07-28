@@ -1,18 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = []; // Define an empty array if you expect a list of properties
 
-const initialState = null; // You can also define a more structured initial state if needed
-
-const proertySlice = createSlice({
-    name: "data",
+const propertySlice = createSlice({
+    name: "property",
     initialState,
     reducers: {
         addProperty: (state, action) => {
-            return action.payload; // Make sure to validate the payload format
+            return action.payload; // Ensure payload is in the correct format
         },
-     
     },
 });
 
-export default proertySlice.reducer;
-export const { addProperty } = proertySlice.actions;
+export default propertySlice.reducer;
+export const { addProperty } = propertySlice.actions;

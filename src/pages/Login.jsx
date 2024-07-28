@@ -14,6 +14,7 @@ function Login() {
     password: "",
     role: "user",
   });
+  const [Error, setError] = useState("");
   const [buttonClass, setButtonClass] = useState("");
   const [loading, setLoading] = useState(false); // Add loading state
 
@@ -29,12 +30,15 @@ function Login() {
     e.preventDefault();
     setButtonClass("button-click-animation"); // Add animation class
     setLoading(true); // Set loading to true
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/user/signin`,
         detail
       );
-      console.log(response.data);
+      
+      console.log(response);
+      localStorage.setItem("token", response.data.token);
       dispatch(addUser(response.data.token));
 
       // Navigate to the home page after animation
@@ -42,7 +46,30 @@ function Login() {
         navigate("/");
       }, 200); // Adjust the delay as needed
     } catch (error) {
-      console.error("Error signing up:", error);
+      if (error.response) {
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 400:
+            // Handle 400 Bad Request
+            setError(data.message); // Assuming the server sends detailed error info in the response body
+            break;
+          case 403:
+            // Handle 403 Forbidden
+            setError("You do not have permission to access this resource."); // Customize as needed
+            break;
+          case 404:
+            // Handle 404 Not Found
+            setError(data.message);  // Customize as needed
+            break;
+          default:
+            // Handle other status codes or unexpected errors
+            setError("An unexpected error occurred."); // Customize as needed
+            break;
+        }
+      } else {
+        console.error("Error signing up:", error);
+      }
     } finally {
       setLoading(false); // Set loading to false
     }
@@ -54,6 +81,7 @@ function Login() {
         <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
           <Heading label={"Login"} />
           <SubHeading label={"Enter your credentials to access your account"} />
+          <h3 className="text-red-700 font-bold text-center">{Error}</h3>
           <div className="flex justify-around mt-4">
             <label htmlFor="" className="font-bold"> Login as</label>
             <RadioButton
