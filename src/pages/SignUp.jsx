@@ -7,11 +7,13 @@ import {
   BottomWarning,
   RadioButton,
 } from "../components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const cloudName = import.meta.env.VITE_CLOUD_NAME; 
-const Preset = import.meta.env.VITE_PRESET_CLOUD; 
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
+const cloudName = import.meta.env.VITE_CLOUD_NAME;
+const Preset = import.meta.env.VITE_PRESET_CLOUD;
 const SignUp = () => {
   const [detail, setDetail] = useState({
     name: "",
@@ -23,9 +25,12 @@ const SignUp = () => {
     role: "",
     address: "",
   });
-
+  const navigate = useNavigate(); // Corrected variable name
+  const [loading, setLoading] = useState(false); // Add loading state
+  const [error, setError] = useState("");
+  const [buttonClass, setButtonClass] = useState("");
   const handleInputChange = (e) => {
-    if (e.target.type === 'file') {
+    if (e.target.type === "file") {
       setDetail({ ...detail, photo: e.target.files[0] }); // Handle file input
     } else {
       setDetail({ ...detail, [e.target.name]: e.target.value });
@@ -36,8 +41,10 @@ const SignUp = () => {
     setDetail({ ...detail, role: e.target.value });
   };
 
-  const handleButtonClick = async (e) => {
-    e.preventDefault();
+
+  const handleButtonClick = async () => {
+    setButtonClass("button-click-animation"); // Add animation class
+    setLoading(true);
     try {
       let photoUrl = "";
       if (detail.photo) {
@@ -52,7 +59,7 @@ const SignUp = () => {
         );
         photoUrl = photoResponse.data.secure_url; // Get the photo URL
       }
-      
+
       const userDetails = {
         ...detail,
         photo: photoUrl, // Add photo URL to user details
@@ -60,25 +67,39 @@ const SignUp = () => {
 
       // Log userDetails to ensure the photo URL is included
       console.log("User Details before sending:", userDetails);
-      
+
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/signup`,
+        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
         userDetails
       );
       console.log(response.data);
-      localStorage.setItem("token", response.data.token);
+      Cookies.set("token", response.data.token, { expires: 10 });
+      navigate("/signin", {
+        state: { message: "Your Account successfully created!" },
+      }); 
     } catch (error) {
       console.error("Error signing up:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false); // Set loading to false
     }
-  };
-
+  };  
   return (
-    <div className="bg-slate-300 h-screen flex justify-center">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleButtonClick();
+      }}
+      className="bg-slate-300 h-screen flex justify-center"
+    >
       <div className="h-screen md:h-[40rem] mt-5 overflow-x-auto scrollbar-hide">
         <div className="flex flex-col mb-10 justify-center">
           <div className="rounded-lg bg-white min-w-2.5 text-center p-2 h-max px-4">
             <Heading label={"Sign up"} />
             <SubHeading label={"Enter your information to create an account"} />
+            {error && (
+              <p className=" font-semibold text-red-400 text-2xl ">{error}</p>
+            )}
             <InputBox
               onChange={handleInputChange}
               name="name"
@@ -118,12 +139,12 @@ const SignUp = () => {
               placeholder={"7854129632"}
             />
             <InputBox
-              type={'file'}
+              type={"file"}
               onChange={handleInputChange}
               name="photo"
               label={"Photo"}
             />
-            
+
             <div className="flex justify-around mt-4">
               <label htmlFor="">Sign Up As</label>
               <RadioButton
@@ -141,9 +162,13 @@ const SignUp = () => {
                 onChange={handleRoleChange}
               />
             </div>
-            {/* <Link to={"/auth"}> */}
-              <Button label={"Sign up"} onClick={handleButtonClick} />
-            {/* </Link> */}
+            <Button 
+            label={loading ? "Loading..." : "Sign up"}
+              className={`${buttonClass} ${
+                loading ? "bg-gray-400 cursor-not-allowed" : ""
+              }`}
+              disabled={loading} // Disable button while loading
+            />
             <BottomWarning
               label={"Already have an account?"}
               to={"/signin"}
@@ -152,7 +177,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

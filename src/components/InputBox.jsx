@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // const InputBox = ({ label, placeholder, onChange, name, type}) => {
 //   return (
 //     <div>
@@ -18,14 +19,16 @@
 
 // export default InputBox;
 
-const InputBox = ({ onChange, name, label, placeholder, value, className ,type='text' }) => {
+const InputBox = ({ onChange, name, label, placeholder, value, className ,type='text', refT }) => {
   return (
     <div className={`w-full my-5  ${className}`}>
       <div className=" w-full flex justify-start">
     <label className=" text-sm font-medium text-gray-700 mb-1">{label}</label></div>
     <input
+    required = {true}
       type={type}
       name={name}
+      ref={refT}
       placeholder={placeholder}
       value={value}
       onChange={onChange}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { InputBox,Heading, SubHeading, Button } from "../../components";
 
@@ -10,26 +11,19 @@ function ChangePassword() {
         <Heading label={"Change your Password "} />
         <SubHeading label={"Enter your New Password. "} />
         <InputBox
-          // onChange={handleInputChange}
           type={'text'}
           name="changePassword"
           label={"New Password"}
           placeholder={"Enter your new password"}
         />
         <InputBox
-          // onChange={handleInputChange}
           type={'text'}
           name="Confirm Password"
           label={"Confirm Password"}
           placeholder={"Confirm Password"}
         />
-        {/* <input type="checkbox"  /> <label htmlFor="">  </label> */}
-
         <div className="flex gap-3 mt-4 justify-center">
-
-        <Button label={"SUBMIT"} 
-        // onClick={handleButtonClick} 
-        />
+        <Button label={"SUBMIT"}/>
         </div>
       </div>
     </div>

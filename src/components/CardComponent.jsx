@@ -3,7 +3,7 @@
 import { Link } from "react-router-dom";
 
 const CardComponent = ({props}) => {
-  console.log(props);
+  // console.log(props);
 
   return (
     <div className="max-w-sm mx-auto bg-white shadow-md rounded-lg overflow-hidden">

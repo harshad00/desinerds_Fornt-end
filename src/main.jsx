@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+import ErrorBoundary from "./components/ErrorBoundaries.jsx";
 import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
@@ -16,16 +17,14 @@ import Manager from "./pages/Manager.jsx";
 import Manager2 from "./pages/Manager2.jsx";
 import User from "./pages/User.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store/store.js";
-import Logout from "./pages/Logout.jsx";
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import UpdateProperty from "./pages/UpdateProperty.jsx";
-=======
->>>>>>> 999982b0ab1795af8479e69f0fe7c53b4d5c4fea
->>>>>>> d2c6dc919367ec34773b0eead117dac76a1f937b
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import UpdateUser from "./pages/UpdateUser.jsx";
+import Admin from "./pages/admin/Admin.jsx";
+import AdminLayout from "./pages/admin/AdminLayout.jsx";
+import UserManage from "./pages/admin/UserManage.jsx";
+import PropertyManage from "./pages/admin/PropertyManage.jsx";
+import AdminLogin from "./pages/admin/Adminlogin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +32,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true, // This makes the child route match the same path as the parent
+        index: true,
         element: <Home />,
       },
       {
@@ -74,33 +73,49 @@ const router = createBrowserRouter([
       },
       {
         path: "/change_password",
-        element: <ChangePassword />,
+        element: <ProtectedRoute element={<ChangePassword />} />,
       },
       {
         path: "/user",
-        element: <User />,
+        element: <ProtectedRoute element={<User />} />,
       },
       {
         path: "/addProperty",
-        element: <AddProperty />,
+        element: <ProtectedRoute element={<AddProperty />} />,
       },
       {
         path: "/success",
         element: <Success />,
       },
       {
-        path: "/logout",
-        element: <Logout />,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+        path: "/updateProperty/:id",
+        element: <ProtectedRoute element={<UpdateProperty />} />,
       },
       {
-        path: "/updateProperty/:id",
-        element: <UpdateProperty/>,
-=======
->>>>>>> 999982b0ab1795af8479e69f0fe7c53b4d5c4fea
->>>>>>> d2c6dc919367ec34773b0eead117dac76a1f937b
+        path: "/UpdateUser/:id",
+        element: <ProtectedRoute element={<UpdateUser />} />,
+      },
+      {
+        path: "/admin",
+        element: <AdminLayout />, 
+        children: [
+          {
+            index: true,
+            element: <Admin />,
+          },
+          {
+            path: "/admin/adminlogin",
+            element: <AdminLogin/>,
+          },
+          {
+            path: "/admin/usermanagement",
+            element: <UserManage/>,
+          },
+          {
+            path: "/admin/propertymanagement",
+            element: <PropertyManage />,
+          },
+        ],
       },
     ],
   },
@@ -108,8 +123,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Provider store={store}>
-    <RouterProvider router={router} />
-    </Provider>
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
   </React.StrictMode>
 );

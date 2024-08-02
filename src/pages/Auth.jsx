@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+import React from "react";
 import { InputBox,Heading, SubHeading, Button} from "../components";
 
 const Auth = () => {
-  
-
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
@@ -16,9 +15,7 @@ const Auth = () => {
             name="otp"
             label={"Enter your OTP."}
             placeholder={"789546"}
-          />
-
-            
+          />  
           <input type="checkbox"  /> <label htmlFor=""> I&apos;m Not Robot. </label>
 
           <div className="flex gap-3 mt-4 justify-center">

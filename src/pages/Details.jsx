@@ -1,49 +1,39 @@
 import { useEffect, useState } from "react";
 import { Slides, VirtualTour, DetailsNav } from "../components";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addProperty } from "../store/propertySlice";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function Details() {
   const { id } = useParams();
-  const [property, setProperty] = useState(null); // State to store the property data
-  const dispatch = useDispatch();
+  const [property, setProperty] = useState(null);
+  const token = Cookies.get("token");
 
   useEffect(() => {
-    // Fetch data from localStorage
-    const data = localStorage.getItem("data");
-
-    // Dispatch the data to the Redux store
-    if (data) {
-      dispatch(addProperty(JSON.parse(data))); // Dispatch parsed data
-
+    const fetchProperties = async () => {
       try {
-        // Parse the JSON string into an array of objects
-        const parsedData = JSON.parse(data);
-
-        // Check if parsedData is an array
-        if (Array.isArray(parsedData)) {
-          // Find the property with the matching _id
-          const foundProperty = parsedData.find((item) => item._id === id);
-
-          if (foundProperty) {
-            setProperty(foundProperty); // Store the found property in state
-            console.log(`ID ${id} is found in the data.`);
-          } else {
-            console.log(`ID ${id} is not found in the data.`);
-            setProperty(null); // Clear property if not found
+        // setFetching(true);
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/properties/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
-        } else {
-          console.error("Parsed data is not an array");
-        }
+        );
+        const data = res.data;
+        setProperty(data);
       } catch (error) {
-        console.error("Failed to parse data from localStorage", error);
+        console.log(error.message);
       }
-    }
-  }, [id, dispatch]);
+    };
+
+    fetchProperties();
+  }, [id, token]);
 
   if (!property) {
-    return <div>Loading...</div>;
+    return <div className=" w-full  text-center text-2xl ">Loading...</div>;
   }
 
   return (
@@ -55,13 +45,16 @@ function Details() {
         </span>
       </div>
       <h1 className="ml-3 text-xl lg:text-2xl">
-        {property.address.street}, {property.address.townCity}, {property.address.state}
+        {property.address.street}, {property.address.townCity},{" "}
+        {property.address.state}
       </h1>
 
       <Slides img={property.images} />
       <div className="mt-10 w-[100%] h-[100%]">
         <p className="text-gray-700 text-xl lg:text-2xl">Start from</p>
-        <h1 className="text-3xl lg:text-4xl font-bold">₹{property.price}/mo*</h1>
+        <h1 className="text-3xl lg:text-4xl font-bold">
+          ₹{property.price}/mo*
+        </h1>
         <p className="text-gray-700 text-lg lg:text-xl">
           {property.description}
         </p>
@@ -72,6 +65,7 @@ function Details() {
         amenitiesData={property.amenities}
         servicesData={property.services}
         menu={property.menu}
+        type={property.type}
       />
     </div>
   );

@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useDispatch, useSelector } from 'react-redux';
-import { addProperty } from '../store/propertySlice'; // Adjust the path as needed
 import {
   Button,
   InputBox,
@@ -12,9 +10,8 @@ import {
   RadioButton,
 } from "../components";
 
-const cloudName = import.meta.env.VITE_CLOUD_NAME; // Your Cloudinary cloud name
-const Preset = import.meta.env.VITE_PRESET_CLOUD; // Your Cloudinary Preset
-
+const cloudName = import.meta.env.VITE_CLOUD_NAME; //Cloudinary 
+const Preset = import.meta.env.VITE_PRESET_CLOUD; //Cloudiary
 const UpdateProperty = () => {
   const daysOfWeek = [
     "Monday",
@@ -25,12 +22,8 @@ const UpdateProperty = () => {
     "Saturday",
     "Sunday",
   ];
-
   const { id } = useParams(); // Get the property ID from the URL
-  const navigate = useNavigate(); // Hook for navigation
-  const dispatch = useDispatch();
-  const propertyFromRedux = useSelector((state) => state.data); // Adjust based on your Redux state
-
+  const navigate = useNavigate(); 
   const [property, setProperty] = useState({
     type: "Room/Flat", // Default value
     accommodationType: "",
@@ -100,8 +93,10 @@ const UpdateProperty = () => {
       },
     }));
   };
-
+   
+   const [cloudinaryFlag, setCloudinaryFlag] = useState(false)
   const handleFileChange = async (e, type) => {
+    setCloudinaryFlag(true)
     try {
       const files = Array.from(e.target.files);
       const uploadedUrls = await Promise.all(
@@ -124,11 +119,14 @@ const UpdateProperty = () => {
       // Update state based on the type (images or VRimages)
       if (type === "images") {
         setProperty((prev) => ({ ...prev, images: filteredUrls }));
+        setCloudinaryFlag(false);
       } else if (type === "VRimages") {
         setProperty((prev) => ({ ...prev, VRimages: filteredUrls }));
+        setCloudinaryFlag(false);
       }
     } catch (error) {
       console.error("Error in handleFileChange:", error);
+      setCloudinaryFlag(true);
     }
   };
 
@@ -175,7 +173,7 @@ const UpdateProperty = () => {
     if (id) {
       fetchProperty();
     }
-  }, [id, dispatch]);
+  }, [id]);
 
   const handleButtonClick = async (e) => {
     e.preventDefault();
@@ -183,15 +181,8 @@ const UpdateProperty = () => {
 
     // Push new fields data into property object
     for (const key in newFields) {
-      const dataKey = `${key}`;
-      if (Array.isArray(newFields[key])) {
-        updatedProperty[dataKey] = newFields[key];
-      } else {
-        updatedProperty[dataKey] = [...property[dataKey], newFields[key]];
-      }
+      updatedProperty[key] = newFields[key];
     }
-
-    setProperty(updatedProperty);
 
     try {
       const yourAuthToken = localStorage.getItem("token");
@@ -206,7 +197,7 @@ const UpdateProperty = () => {
           },
         }
       );
-      navigate("/success");
+      navigate("/properties");
     } catch (error) {
       console.error("Error updating property:", error);
     }
@@ -342,57 +333,12 @@ const UpdateProperty = () => {
         </div>
 
         <div className="flex flex-col mb-4">
-          <label className="block text-sm font-medium text-gray-700">Images</label>
-          {property.images.length > 0 && (
-            <div className="flex flex-wrap gap-4 mb-4">
-              {property.images.map((imgUrl, index) => (
-                <div key={index} className="relative">
-                  <img src={imgUrl} alt={`Uploaded Image ${index}`} className="w-32 h-32 object-cover rounded" />
-                  <button
-                    type="button"
-                    onClick={() => handleImageRemove(imgUrl, "images")}
-                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-          <input
-            type="file"
-            multiple
-            onChange={(e) => handleFileChange(e, "images")}
-          />
-        </div>
-
-        <div className="flex flex-col mb-4">
-          <label className="block text-sm font-medium text-gray-700">VR Images</label>
-          {property.VRimages.length > 0 && (
-            <div className="flex flex-wrap gap-4 mb-4">
-              {property.VRimages.map((imgUrl, index) => (
-                <div key={index} className="relative">
-                  <img src={imgUrl} alt={`VR Image ${index}`} className="w-32 h-32 object-cover rounded" />
-                  <button
-                    type="button"
-                    onClick={() => handleImageRemove(imgUrl, "VRimages")}
-                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-          <input
-            type="file"
-            multiple
-            onChange={(e) => handleFileChange(e, "VRimages")}
-          />
-        </div>
-
-        {property.type === "PG" && (
+         
+                {property.type === "PG" && (
           <>
+           <label className="block text-sm font-medium text-gray-700">
+            Meal Data
+          </label>
             <h3 className="text-lg font-semibold mb-4">Meal</h3>
             <div className="flex flex-col max-w-xs w-full sm:w-1/2">
               {newFields.menu.map((meal, index) => (
@@ -422,13 +368,145 @@ const UpdateProperty = () => {
             </div>
           </>
         )}
+        
 
-        <Button label={"Save Changes"} onClick={handleButtonClick} />
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm font-medium text-gray-700">Occupancy</label>
+          {newFields.occupancy.map((item, index) => (
+            <div key={index} className="flex mb-2 items-center">
+              <InputBox
+                value={item}
+                onChange={(e) => handleInputChange(e, index, "occupancy")}
+                placeholder={"Enter occupancy"}
+                className="flex-1"
+              />
+              <button
+                type="button"
+                onClick={() => deleteField(index, "occupancy")}
+                className="ml-2 bg-red-600 text-white rounded p-2"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => addField("occupancy")}
+            className="bg-green-600 text-white rounded p-2"
+          >
+            Add Occupancy
+          </button>
+        </div>
 
-        <BottomWarning
-          warningText={"Note: Make sure all data is correct before saving changes."}
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm font-medium text-gray-700">Services</label>
+          {newFields.services.map((item, index) => (
+            <div key={index} className="flex mb-2 items-center">
+              <InputBox
+                value={item}
+                onChange={(e) => handleInputChange(e, index, "services")}
+                placeholder={"Enter service"}
+                className="flex-1"
+              />
+              <button
+                type="button"
+                onClick={() => deleteField(index, "services")}
+                className="ml-2 bg-red-600 text-white rounded p-2"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => addField("services")}
+            className="bg-green-600 text-white rounded p-2"
+          >
+            Add Service
+          </button>
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm font-medium text-gray-700">Amenities</label>
+          {newFields.amenities.map((item, index) => (
+            <div key={index} className="flex mb-2 items-center">
+              <InputBox
+                value={item}
+                onChange={(e) => handleInputChange(e, index, "amenities")}
+                placeholder={"Enter amenity"}
+                className="flex-1"
+              />
+              <button
+                type="button"
+                onClick={() => deleteField(index, "amenities")}
+                className="ml-2 bg-red-600 text-white rounded p-2"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => addField("amenities")}
+            className="bg-green-600 text-white rounded p-2"
+          >
+            Add Amenity
+          </button>
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm font-medium text-gray-700">Images</label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => handleFileChange(e, "images")}
+            className="mb-2"
+          />
+          {property.images.map((url, index) => (
+            <div key={index} className="relative mb-2">
+              <img src={url} alt={`Property ${index}`} className="w-32 h-32 object-cover" />
+              <button
+                type="button"
+                onClick={() => handleImageRemove(url, "images")}
+                className="absolute top-0 right-0 bg-red-600 text-white rounded p-1"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <label className="block text-sm font-medium text-gray-700">VR Images</label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => handleFileChange(e, "VRimages")}
+            className="mb-2"
+          />
+          {property.VRimages.map((url, index) => (
+            <div key={index} className="relative mb-2">
+              <img src={url} alt={`VR ${index}`} className="w-32 h-32 object-cover" />
+              <button
+                type="button"
+                onClick={() => handleImageRemove(url, "VRimages")}
+                className="absolute top-0 right-0 bg-red-600 text-white rounded p-1"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+        
+        <Button
+          label= {!cloudinaryFlag ?  'Update Property' : "images are uploading..." }
+          onClick={handleButtonClick}
+          className="bg-blue-600 text-white"
+          disable={cloudinaryFlag}
         />
+        <BottomWarning />
       </div>
+    </div>
     </div>
   );
 };

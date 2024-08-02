@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useRef } from "react";
 import Menu from "./Menu";
 import MoreInfo from "./MoreInfo";
@@ -5,7 +6,7 @@ import Occupancy from "./Occupancy";
 import Amenities from "./Amenities";
 import Services from "./Services";
 
-function DetailsNav({ occupancyData, amenitiesData, servicesData, menu }) {
+function DetailsNav({ occupancyData, amenitiesData, servicesData, menu, type }) {
   const serviceRef = useRef(null);
   const amenitiesRef = useRef(null);
   const moreRef = useRef(null);
@@ -49,13 +50,13 @@ function DetailsNav({ occupancyData, amenitiesData, servicesData, menu }) {
         <Services services={servicesData} />
       </div>
 
-      <div className="mt-8">
+     { type === "PG" && <div className="mt-8">
         <h1 className="text-2xl lg:text-3xl font-bold">Food Menu</h1>
         <div className="flex flex-wrap">
           <Menu menu={menu} />
         </div>
       </div>
-
+}
       <div className="mt-8">
         <h1 className="text-2xl lg:text-3xl font-bold">More Info</h1>
         <MoreInfo />

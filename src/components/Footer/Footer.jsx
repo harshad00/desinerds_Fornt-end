@@ -1,7 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import Logo from '../Logo';
 
 const Footer = () => {
+  if (location.pathname.startsWith("/admin")) {
+    return null;
+  }
+  
   return (
     <footer className="bg-white border-t border-gray-200">
       <div className="container mx-auto px-4 pt-10">

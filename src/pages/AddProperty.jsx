@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router";
 import {
   Button,
@@ -11,9 +10,8 @@ import {
   RadioButton,
 } from "../components";
 
-const cloudName = import.meta.env.VITE_CLOUD_NAME; // Your Cloudinary cloud name
-const Preset = import.meta.env.VITE_PRESET_CLOUD; // Your Cloudinary Preset
-
+const cloudName = import.meta.env.VITE_CLOUD_NAME;  
+const Preset = import.meta.env.VITE_PRESET_CLOUD;  
 const AddProperty = () => {
   const daysOfWeek = [
     "Monday",
@@ -24,12 +22,10 @@ const AddProperty = () => {
     "Saturday",
     "Sunday",
   ];
-
-
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const [property, setProperty] = useState({
-    type: "Room/Flat", // Default value
+    type: "Room/Flat",
     accommodationType: "", //! Added gender field
     address: {
       // Added address field
@@ -43,11 +39,11 @@ const AddProperty = () => {
       townCity: "",
       state: "",
     },
-    title: "", // Added property name
-    description: "", // Added detailed information
-    bhk: "30", // ariya of room
-    area: "24", //
-    price: "100", //
+    title: "", 
+    description: "", 
+    bhk: "", 
+    area: "", 
+    price: "", 
     VRimages: [],
     images: [],
   });
@@ -119,8 +115,6 @@ const AddProperty = () => {
       );
 
       const filteredUrls = uploadedUrls.filter((url) => url !== null);
-
-      // Update state based on the type (images or VRimages)
       if (type === "images") {
         setProperty((prev) => ({ ...prev, images: filteredUrls }));
         console.log("Images state updated:", filteredUrls); // Add console log
@@ -158,8 +152,6 @@ const AddProperty = () => {
           }
         );
         navigate("/success");
-        // console.log(response.data);
-        // Handle success response
       } catch (error) {
         console.error("Error adding property:", error);
       }
@@ -167,13 +159,12 @@ const AddProperty = () => {
     if (property.images.length > 0 && property.VRimages.length > 0) {
       addproperty();
     }
-  }, [property]);
+  }, [property, navigate]);
 
 
   const handleButtonClick = async (e) => {
     e.preventDefault();
     const updatedProperty = { ...property };
-
     // Push new fields data into property object
     for (const key in newFields) {
       const dataKey = `${key}`;
@@ -183,10 +174,8 @@ const AddProperty = () => {
         updatedProperty[dataKey] = [...property[dataKey], newFields[key]];
       }
     }
-
     setProperty(updatedProperty);
-
-    console.log(updatedProperty);
+    // console.log(updatedProperty);
   };
 
   return (

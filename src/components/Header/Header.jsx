@@ -1,9 +1,8 @@
-import { useState, useLocation } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../Logo";
 import Dropdown from "./Dropdown";
-import { useSelector } from "react-redux";
-import store from "../../store/store";
+import Cookies from "js-cookie";
 
 const navItems = [
   { name: "Rent", slug: "/", active: true },
@@ -31,13 +30,12 @@ const navItems = [
 ];
 
 function Header() {
-  const usertoken = useSelector((store) => store.auth);
-  // console.log(usertoken);
+  const usertoken = Cookies.get('token');
   const navigate = useNavigate();
+  const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  
   const handleDropdownToggle = (index) => {
     setDropdownOpen(dropdownOpen === index ? null : index);
   };
@@ -50,9 +48,14 @@ function Header() {
     setMenuOpen(!menuOpen);
   };
 
+  // Don't render the header if the current path is '/admin'
+  if (location.pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <nav className="bg-white shadow-lg px-3">
-      <div className="flex flex-col justify-evenly md:flex-row  mx-auto px-2 py-5 ">
+      <div className="flex flex-col justify-evenly md:flex-row mx-auto px-2 py-5">
         <Link to="/">
           <Logo />
         </Link>
@@ -92,11 +95,7 @@ function Header() {
                   {item.dropDown ? (
                     <div className="relative">
                       <button
-                        className="inline-block px-4
-                         py-2 duration-200 rounded-full
-                          hover:underline focus:outline-none 
-                          text-sm md:text-base lg:text-lg
-                           xl:text-xl"
+                        className="inline-block px-4 py-2 duration-200 rounded-full hover:underline focus:outline-none text-sm md:text-base lg:text-lg xl:text-xl"
                         onClick={() => handleDropdownToggle(index)}
                         aria-haspopup="true"
                         aria-expanded={dropdownOpen === index}
@@ -104,20 +103,12 @@ function Header() {
                         {item.name}
                       </button>
                       {dropdownOpen === index && (
-                        <Dropdown
-                          items={item.items}
-                          onClose={handleDropdownClose}
-                        />
+                        <Dropdown items={item.items} onClose={handleDropdownClose} />
                       )}
                     </div>
                   ) : (
                     <button
-                      className="inline-block
-                       px-4 py-2 duration-200
-                        rounded-full hover:underline
-                         focus:outline-none text-sm
-                          md:text-base lg:text-lg 
-                          xl:text-xl"
+                      className="inline-block px-4 py-2 duration-200 rounded-full hover:underline focus:outline-none text-sm md:text-base lg:text-lg xl:text-xl"
                       onClick={() => {
                         navigate(item.slug);
                         setMenuOpen(false); // Close menu on navigation
@@ -133,54 +124,38 @@ function Header() {
         <div
           className={`${
             menuOpen ? "block" : "hidden"
-          } md:flex gap-3 justify-end 
-          md:gap-5 md:justify-center md:items-center`}
+          } md:flex gap-3 justify-end md:gap-5 md:justify-center md:items-center`}
         >
           {!usertoken ? (
             <>
               <Link to={"/signin"}>
-                <button
-                  className="text-[#100a55]
-           mx-5 font-semibold text-sm 
-            md:text-base lg:text-lg
-             xl:text-xl"
-                >
+                <button className="text-[#100a55] mx-5 font-semibold text-sm md:text-base lg:text-lg xl:text-xl">
                   Login
                 </button>
               </Link>
               <Link to={"/signup"}>
-                <button
-                  className="bg-[#7065f0]
-           text-white font-semibold sm:p-1
-            text-nowrap p-2 rounded-md
-             text-sm md:text-base 
-             lg:text-lg xl:text-xl"
-                >
+                <button className="bg-[#7065f0] text-white font-semibold sm:p-1 text-nowrap p-2 rounded-md text-sm md:text-base lg:text-lg xl:text-xl">
                   Sign up
                 </button>
               </Link>
             </>
           ) : (
             <div>
-              <div className=" flex gap-3">
+              <div className="flex gap-3">
                 <Link to={"/user"}>
-                <div className=" flex justify-center items-center  w-10 h-10  bg-purple-300 border border-b-2 rounded-full  ">
-                  <i className="fa-solid fa-user text-2xl text-wrap " style={{color: "#ffffff",}}  ></i>
-                 
-                </div>
+                  <div className="flex justify-center items-center w-10 h-10 bg-purple-300 border border-b-2 rounded-full">
+                    <i className="fa-solid fa-user text-2xl text-wrap" style={{ color: "#ffffff" }}></i>
+                  </div>
                 </Link>
-                <Link to={"/logout"}> 
-            
                 <button
-                  className="bg-[#f15855]
-           text-white font-semibold sm:p-1
-            text-nowrap p-2 rounded-md
-             text-sm md:text-base 
-             lg:text-lg xl:text-xl"
+                  className="bg-[#f15855] text-white font-semibold sm:p-1 text-nowrap p-2 rounded-md text-sm md:text-base lg:text-lg xl:text-xl"
+                  onClick={() => {
+                    Cookies.remove("token");
+                    navigate("/");
+                  }}
                 >
                   logout
                 </button>
-                </Link>
               </div>
             </div>
           )}

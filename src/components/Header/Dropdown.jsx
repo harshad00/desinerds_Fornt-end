@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
 const Dropdown = ({ items, onClose }) => {
   return (
-    <ul className="absolute left-20 mt-0 md:left-0 md:mt-2 w-32 bg-white shadow-lg rounded-md py-1">
+    <ul className="absolute left-20 mt-0 md:left-0 z-10 md:mt-2 w-32 bg-white shadow-lg rounded-md py-1">
       {items.map((item) => (
         <li key={item.name} className="">
           <Link
